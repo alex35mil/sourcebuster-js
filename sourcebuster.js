@@ -1,0 +1,457 @@
+// It's Sourcebuster [JS Edition], baby! (poolparty)
+// Version: 0.0.1
+
+// Ready Steady
+// Let's set some vars first
+
+// SBJS cookies
+var SBJS_CURRENT_COOKIE = 'sbjs_current',
+    SBJS_FIRST_COOKIE = 'sbjs_first',
+    SBJS_FIRST_ADD_COOKIE = 'sbjs_first_add',
+    SBJS_SESSION_COOKIE = 'sbjs_session',
+    SBJS_REFERER_COOKIE = 'sbjs_referer',
+    SBJS_UDATA_COOKIE = 'sbjs_udata',
+    SBJS_COOKIE_EXPIRES = 1000000;
+
+
+// It's not a Rails, we don't have a waiters here
+function set_cookie(name, value, minutes, domain, excl_subdomains) {
+  var expires;
+
+  if (minutes) {
+    var date = new Date();
+    date.setTime(date.getTime() + (minutes * 60 * 1000));
+    expires = '; expires=' + date.toGMTString();
+  } else {
+    expires = '';
+  }
+  if (domain) {
+    if (excl_subdomains) {
+      var basehost = '';
+    } else {
+      var basehost = ';domain=.' + domain;
+    }
+  } else {
+    basehost = '';
+  }
+  document.cookie = escape(name) + '=' + escape(value) + expires + basehost + '; path=/';
+}
+
+function get_cookie(name) {
+  var nameEQ = escape(name) + '=',
+      ca = document.cookie.split(';');
+
+  for (var i = 0; i < ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+    if (c.indexOf(nameEQ) === 0) return unescape(c.substring(nameEQ.length, c.length));
+  }
+  return null;
+}
+
+function destroy_cookie(name) {
+  set_cookie(name, '', -1);
+}
+
+
+(function sourcebuster_js() {
+
+      // Traffic types
+  var SBJS_UTM = 'utm',
+      SBJS_ORGANIC = 'organic',
+      SBJS_REFERRAL = 'referral',
+      SBJS_TYPEIN = 'typein';
+
+      // Medium types
+  var SBJS_REFERER_REFERRAL = 'referral',
+      SBJS_REFERER_ORGANIC = 'organic',
+      SBJS_REFERER_SOCIAL = 'social';
+
+      // Aliases for params names in main cookies
+  var SBJS_TYPE_ALIAS = 'typ',
+      SBJS_SOURCE_ALIAS = 'src',
+      SBJS_MEDIUM_ALIAS = 'mdm',
+      SBJS_CAMPAIGN_ALIAS = 'cmp',
+      SBJS_CONTENT_ALIAS = 'cnt',
+      SBJS_TERM_ALIAS = 'trm';
+
+  var SBJS_FIRST_DATE_ALIAS = 'fd',
+      SBJS_ENTRANCE_POINT_ALIAS = 'ep';
+
+  var SBJS_REFERRAL_URL_ALIAS = 'ref';
+
+  var SBJS_USER_IP_ALIAS = 'uip',
+      SBJS_USER_AGENT_ALIAS = 'uag';
+
+  var SBJS_NONE = '(none)',
+      SBJS_OOPS = '(Houston, we have a problem)';
+
+      // source params
+  var __sbjs_type,
+      __sbjs_source,
+      __sbjs_medium,
+      __sbjs_campaign,
+      __sbjs_content,
+      __sbjs_term;
+
+
+  // Set user params if any
+  if (typeof _sbjs !== 'undefined' && _sbjs.length > 0) {
+    for (var i = 0; i < _sbjs.length; i++) {
+      if (_sbjs[i][0] === '_setBaseHost') {
+        var SBJS_BASEHOST = _sbjs[i][1];
+        if (_sbjs[i].length > 2) {
+          var SBJS_IS_TRUE_BASEHOST = _sbjs[i][2];
+        } else {
+          var SBJS_IS_TRUE_BASEHOST = true;
+        }
+      }
+
+      if (_sbjs[i][0] === '_setSessionLength') {
+        var SBJS_SESSION_LENGTH = parseInt(_sbjs[i][1]);
+      }
+
+      if (_sbjs[i][0] === '_setUserIP') {
+        var SBJS_USER_IP = _sbjs[i][1];
+      }
+
+      if (_sbjs[i][0] === '_addOrganicSource') {
+        var SBJS_CUSTOM_SOURCES_ORGANIC = SBJS_CUSTOM_SOURCES_ORGANIC || [];
+        SBJS_CUSTOM_SOURCES_ORGANIC.push(_sbjs[i]);
+      }
+
+      if (_sbjs[i][0] === '_addReferralSource') {
+        var SBJS_CUSTOM_SOURCES_REFERRAL = SBJS_CUSTOM_SOURCES_REFERRAL || [];
+        SBJS_CUSTOM_SOURCES_REFERRAL.push(_sbjs[i]);
+      }
+    }
+  }
+
+  // A few more helpers
+  var get_param = function () {
+    var query_string = {},
+        query = window.location.search.substring(1),
+        vars = query.split('&');
+
+    for (var i = 0; i < vars.length; i++) {
+      var pair = vars[i].split('=');
+      if (typeof query_string[pair[0]] === 'undefined') {
+        query_string[pair[0]] = pair[1];
+      } else if (typeof query_string[pair[0]] === 'string') {
+        var arr = [ query_string[pair[0]], pair[1] ];
+        query_string[pair[0]] = arr;
+      } else {
+        query_string[pair[0]].push(pair[1]);
+      }
+    }
+    return query_string;
+  }();
+
+
+  // parseUri 1.2.2
+  // (c) Steven Levithan <stevenlevithan.com>
+  // MIT License
+
+  function parseUri(str) {
+    var o = parseUri.options,
+        m = o.parser[o.strictMode ? 'strict' : 'loose'].exec(str),
+        uri = {},
+        i = 14;
+
+    while (i--) uri[o.key[i]] = m[i] || '';
+
+    uri[o.q.name] = {};
+    uri[o.key[12]].replace(o.q.parser, function ($0, $1, $2) {
+      if ($1) uri[o.q.name][$1] = $2;
+    });
+
+    return uri;
+  }
+
+  parseUri.options = {
+    strictMode: false,
+    key: ['source','protocol','authority','userInfo','user','password','host','port','relative','path','directory','file','query','anchor'],
+    q: {
+      name:   'queryKey',
+      parser: /(?:^|&)([^&=]*)=?([^&]*)/g
+    },
+    parser: {
+      strict: /^(?:([^:\/?#]+):)?(?:\/\/((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?))?((((?:[^?#\/]*\/)*)([^?#]*))(?:\?([^#]*))?(?:#(.*))?)/,
+      loose:  /^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/
+    }
+  }
+  // parseUri 1.2.2
+
+
+  function escape_regexp(string) {
+    return string.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+  }
+
+
+
+  // Let's get this party started
+  function set_referer_cookie() {
+    var referer = document.referrer || SBJS_NONE;
+    var basehost, is_true_basehost;
+    typeof SBJS_BASEHOST !== 'undefined' ? basehost = SBJS_BASEHOST : basehost = undefined;
+    typeof SBJS_IS_TRUE_BASEHOST !== 'undefined' ? is_true_basehost = SBJS_IS_TRUE_BASEHOST : is_true_basehost = true;
+
+    set_cookie(SBJS_REFERER_COOKIE, SBJS_REFERRAL_URL_ALIAS + '=' + referer, SBJS_COOKIE_EXPIRES, basehost, !is_true_basehost);
+  }
+
+  function main_cookie_data() {
+    var data;
+    if (typeof get_param.utm_source !== 'undefined' || 
+        typeof get_param.utm_medium !== 'undefined' ||
+        typeof get_param.utm_campaign !== 'undefined' ||
+        typeof get_param.utm_content !== 'undefined' ||
+        typeof get_param.utm_term !== 'undefined') {
+      set_referer_cookie();
+      data = get_data(SBJS_UTM);
+    } else if (check_referer(SBJS_ORGANIC)) {
+      set_referer_cookie();
+      data = get_data(SBJS_ORGANIC);
+    } else if (!get_cookie(SBJS_SESSION_COOKIE) && check_referer(SBJS_REFERRAL)) {
+      set_referer_cookie();
+      data = get_data(SBJS_REFERRAL);
+    } else if (!get_cookie(SBJS_FIRST_COOKIE) && !get_cookie(SBJS_CURRENT_COOKIE)) {
+      set_referer_cookie();
+      data = get_data(SBJS_TYPEIN);
+    } else {
+      return get_cookie(SBJS_CURRENT_COOKIE);
+    }
+    return data;
+  }
+
+  function get_data(type) {
+    switch (type) {
+      case SBJS_UTM:
+        __sbjs_type = SBJS_UTM;
+        __sbjs_source = get_param.utm_source || SBJS_NONE;
+        __sbjs_medium = get_param.utm_medium || SBJS_NONE;
+        __sbjs_campaign = get_param.utm_campaign || SBJS_NONE;
+        __sbjs_content = get_param.utm_content || SBJS_NONE;
+        __sbjs_term = get_param.utm_term || SBJS_NONE;
+        break;
+
+      case SBJS_ORGANIC:
+        __sbjs_type = SBJS_ORGANIC;
+        __sbjs_source = __sbjs_source || clean_host(document.referrer);
+        __sbjs_medium = SBJS_REFERER_ORGANIC;
+        __sbjs_campaign = SBJS_NONE;
+        __sbjs_content = SBJS_NONE;
+        __sbjs_term = SBJS_NONE;
+        break;
+
+      case SBJS_REFERRAL:
+        __sbjs_type = SBJS_REFERRAL;
+        __sbjs_source = __sbjs_source || clean_host(document.referrer);
+        __sbjs_medium = __sbjs_medium || SBJS_REFERER_REFERRAL;
+        __sbjs_campaign = SBJS_NONE;
+        __sbjs_content = SBJS_NONE;
+        __sbjs_term = SBJS_NONE;
+        break;
+
+      case SBJS_TYPEIN:
+        __sbjs_type = SBJS_TYPEIN;
+        __sbjs_source = SBJS_TYPEIN;
+        __sbjs_medium = SBJS_TYPEIN;
+        __sbjs_campaign = SBJS_NONE;
+        __sbjs_content = SBJS_NONE;
+        __sbjs_term = SBJS_NONE;
+        break;
+
+      default:
+        __sbjs_type = SBJS_OOPS;
+        __sbjs_source = SBJS_OOPS;
+        __sbjs_medium = SBJS_OOPS;
+        __sbjs_campaign = SBJS_OOPS;
+        __sbjs_content = SBJS_OOPS;
+        __sbjs_term = SBJS_OOPS;
+    }
+    var data = {  sbjs_type: __sbjs_type,
+                  sbjs_source: __sbjs_source,
+                  sbjs_medium: __sbjs_medium,
+                  sbjs_campaign: __sbjs_campaign,
+                  sbjs_content: __sbjs_content,
+                  sbjs_term: __sbjs_term
+        };
+    return combine_sbjs_main_data_string(data);
+  }
+
+  function clean_host(request) {
+    return parseUri(request).host.replace('www.', '');
+  }
+
+  function check_referer(type) {
+    var referer = document.referrer;
+    switch(type) {
+      case SBJS_ORGANIC:
+        return (!!referer && check_referer_host(referer) && is_organic(referer));
+      case SBJS_REFERRAL:
+        return (!!referer && check_referer_host(referer) && is_referral(referer));
+      default:
+        return false;
+    }
+  }
+
+  function check_referer_host(referer) {
+    if (typeof SBJS_BASEHOST !== 'undefined' && SBJS_BASEHOST.length > 0) { 
+      if (SBJS_IS_TRUE_BASEHOST) {
+        var host_regex = new RegExp('^(.*\\.)?' + escape_regexp(SBJS_BASEHOST) + '$', 'i');
+        return !(!!clean_host(referer).match(host_regex));
+      } else {
+        return (clean_host(referer) !== clean_host(SBJS_BASEHOST));
+      }
+    } else { 
+      return (clean_host(referer) !== clean_host(location.href));
+    }
+  }
+
+  function is_organic(referer) {
+    var y_host = 'yandex',
+        y_param = 'text',
+        g_host = 'google';
+    var y_host_regex = new RegExp('^(.*\\.)?' + escape_regexp(y_host) + '\\..{2,9}$'),
+        y_param_regex = new RegExp('.*[?&]' + escape_regexp(y_param) + '=.*'),
+        g_host_regex = new RegExp('^(www\\.)?' + escape_regexp(g_host) + '\\..{2,9}$');
+
+    if (!!parseUri(referer).query && 
+        !!parseUri(referer).host.match(y_host_regex) && 
+        !!parseUri(referer).query.match(y_param_regex)) {
+      __sbjs_source = y_host;
+      return true;
+    } else if (!!parseUri(referer).host.match(g_host_regex)) {
+      __sbjs_source = g_host;
+      return true;
+    } else if (!!parseUri(referer).query && typeof SBJS_CUSTOM_SOURCES_ORGANIC !== 'undefined' && SBJS_CUSTOM_SOURCES_ORGANIC.length > 0) {
+      for (var i = 0; i < SBJS_CUSTOM_SOURCES_ORGANIC.length; i++) {
+        if (SBJS_CUSTOM_SOURCES_ORGANIC[i].length === 3 && parseUri(referer).host.match(new RegExp('^(.*\\.)?' + escape_regexp(SBJS_CUSTOM_SOURCES_ORGANIC[i][1]) + '$', 'i')) && parseUri(referer).query.match(new RegExp('.*[?&]' + escape_regexp(SBJS_CUSTOM_SOURCES_ORGANIC[i][2]) + '=.*', 'i'))) {
+          __sbjs_source = SBJS_CUSTOM_SOURCES_ORGANIC[i][1];
+          return true;
+        }
+        if (i + 1 === SBJS_CUSTOM_SOURCES_ORGANIC.length) {
+          return false;
+        }
+      }
+    } else {
+      return false;
+    }
+  }
+
+  function is_referral(referer) {
+    if (typeof SBJS_CUSTOM_SOURCES_REFERRAL !== 'undefined' && SBJS_CUSTOM_SOURCES_REFERRAL.length > 0) {
+      for (var i = 0; i < SBJS_CUSTOM_SOURCES_REFERRAL.length; i++) {
+        if (SBJS_CUSTOM_SOURCES_REFERRAL[i].length > 1 && parseUri(referer).host.match(new RegExp('^(.*\\.)?' + escape_regexp(SBJS_CUSTOM_SOURCES_REFERRAL[i][1]) + '$', 'i'))) {
+          __sbjs_source = SBJS_CUSTOM_SOURCES_REFERRAL[i][1];
+          __sbjs_medium = SBJS_CUSTOM_SOURCES_REFERRAL[i][2] || SBJS_REFERER_REFERRAL;
+          return true;
+        }
+        if (i + 1 === SBJS_CUSTOM_SOURCES_REFERRAL.length) {
+          __sbjs_source = clean_host(referer);
+          return true;
+        }
+      }
+    } else {
+      __sbjs_source = clean_host(referer);
+      return true;
+    }
+  }
+
+  function combine_sbjs_main_data_string(data) {
+    return  SBJS_TYPE_ALIAS + '=' + data.sbjs_type + '|' + 
+            SBJS_SOURCE_ALIAS + '=' + data.sbjs_source + '|' + 
+            SBJS_MEDIUM_ALIAS + '=' + data.sbjs_medium + '|' + 
+            SBJS_CAMPAIGN_ALIAS + '=' + data.sbjs_campaign + '|' + 
+            SBJS_CONTENT_ALIAS + '=' + data.sbjs_content + '|' + 
+            SBJS_TERM_ALIAS + '=' + data.sbjs_term;
+  }
+
+  function combine_sbjs_user_data_string() {
+    var user_agent_string = '|' + SBJS_USER_AGENT_ALIAS + '=' + navigator.userAgent;
+    if (typeof SBJS_USER_IP !== 'undefined' && SBJS_USER_IP.length > 0) {
+      return (SBJS_USER_IP_ALIAS + '=' + SBJS_USER_IP + user_agent_string);
+    } else {
+      return (SBJS_USER_IP_ALIAS + '=' + SBJS_NONE + user_agent_string);
+    }
+  }
+
+  function combine_sbjs_first_add_data_string() {
+    return (SBJS_FIRST_DATE_ALIAS + '=' + Date() + '|' + SBJS_ENTRANCE_POINT_ALIAS + '=' + location.href);
+  }
+
+  function set_sbjs_data() {
+
+    var session_length, basehost, is_true_basehost;
+    typeof SBJS_SESSION_LENGTH !== 'undefined' && SBJS_SESSION_LENGTH > 0 ? session_length = SBJS_SESSION_LENGTH : session_length = 30;
+    typeof SBJS_BASEHOST !== 'undefined' ? basehost = SBJS_BASEHOST : basehost = undefined;
+    typeof SBJS_IS_TRUE_BASEHOST !== 'undefined' ? is_true_basehost = SBJS_IS_TRUE_BASEHOST : is_true_basehost = true;
+
+    set_cookie(SBJS_CURRENT_COOKIE, main_cookie_data(), SBJS_COOKIE_EXPIRES, basehost, !is_true_basehost);
+    if (!get_cookie(SBJS_FIRST_COOKIE)) { 
+      set_cookie(SBJS_FIRST_ADD_COOKIE, combine_sbjs_first_add_data_string(), SBJS_COOKIE_EXPIRES, basehost, !is_true_basehost);
+    }
+    if (!get_cookie(SBJS_FIRST_COOKIE)) {
+      set_cookie(SBJS_FIRST_COOKIE, get_cookie(SBJS_CURRENT_COOKIE), SBJS_COOKIE_EXPIRES, basehost, !is_true_basehost);
+    }
+    set_cookie(SBJS_SESSION_COOKIE, '1', session_length, basehost, !is_true_basehost);
+    set_cookie(SBJS_UDATA_COOKIE, combine_sbjs_user_data_string(), SBJS_COOKIE_EXPIRES, basehost, !is_true_basehost);
+
+    sbjs_set = new Event('sbjs:set');
+    document.dispatchEvent(sbjs_set);
+
+  }
+
+  // Boom!
+  set_sbjs_data();
+
+}).call(this);
+
+
+// What we've got here is getter to communicate
+var get_sbjs = function() {
+  var cookies = {},
+      cookies_names_src = [
+        SBJS_CURRENT_COOKIE,
+        SBJS_FIRST_COOKIE,
+        SBJS_FIRST_ADD_COOKIE,
+        SBJS_REFERER_COOKIE,
+        SBJS_UDATA_COOKIE
+      ];
+
+  function unsbjs(string) {
+    return string.replace('sbjs_', '');
+  }
+
+  for (var i1 = 0; i1 < cookies_names_src.length; i1++) {
+    cookies[unsbjs(cookies_names_src[i1])] = {};
+    if (get_cookie(cookies_names_src[i1])) {
+      var cookie_array = get_cookie(cookies_names_src[i1]).split('|');
+    } else {
+      var cookie_array = [];
+    }
+    for (var i2 = 0; i2 < cookie_array.length; i2++) {
+      var tmp_array = cookie_array[i2].split('='),
+          result_array = tmp_array.splice(0, 1);
+      result_array.push(tmp_array.join('='));
+      cookies[unsbjs(cookies_names_src[i1])][result_array[0]] = result_array[1];
+    }
+  }
+
+  return cookies;
+}();
+
+// Fire this baby
+if (typeof get_sbjs !== 'undefined') {
+  sbjs_ready = new Event('sbjs:ready');
+  document.dispatchEvent(sbjs_ready);
+}
+
+
+// Sound Check
+console.log('Current: ' + get_cookie(SBJS_CURRENT_COOKIE));
+console.log('First: ' + get_cookie(SBJS_FIRST_COOKIE));
+console.log('First (add): ' + get_cookie(SBJS_FIRST_ADD_COOKIE));
+console.log('Session: ' + get_cookie(SBJS_SESSION_COOKIE));
+console.log('User: ' + get_cookie(SBJS_UDATA_COOKIE));
+console.log('Referer: ' + get_cookie(SBJS_REFERER_COOKIE));

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"> 
+    <title>Sourcebuster JS &trade;</title>
+
+    <!--[if lt IE 9]>
+      <script src=”http://html5shiv.googlecode.com/svn/trunk/html5.js”></script>
+    <![endif]-->
+
+    <link rel="stylesheet" href="sourcebuster.css" />
+
+    <script>
+      var sbjs_location = '../sourcebuster.js';
+
+      var _sbjs = _sbjs || [];
+      _sbjs.push(['_setSessionLength', 15]);
+      _sbjs.push(['_setBaseHost', 'alexfedoseev.com']);
+      _sbjs.push(['_addOrganicSource', 'bing.com', 'q']);
+      _sbjs.push(['_addReferralSource', 'facebook.com', 'social']);
+
+      var sbjs = document.createElement('script'); sbjs.type = 'text/javascript'; sbjs.src = sbjs_location;
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(sbjs, s);
+    </script>
+
+  </head>
+  <body>
+
+    <section id='wrapper'>
+      <header>
+
+        <hgroup>
+          <h1>Sourcebuster JS</h1>
+        </hgroup>
+              
+      </header>
+
+
+      <table>
+        <tr>
+          <td width='350'>
+            <h3>Первый визит</h3>
+          </td>
+          <td width='350'>
+            <h3>Текущий визит</h3>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <table>
+              <tr>
+                <td class='sb-table-param-type'>Type:</td>
+                <td class='sb-table-param-value' id='sb_first_typ'></td>
+              </tr>
+              <tr>
+                <td class='sb-table-param-type'>utm_source:</td>
+                <td class='sb-table-param-value' id='sb_first_src'></td>
+              </tr>
+              <tr>
+                <td class='sb-table-param-type'>utm_medium:</td>
+                <td class='sb-table-param-value' id='sb_first_mdm'></td>
+              </tr>
+              <tr>
+                <td class='sb-table-param-type'>utm_campaign:</td>
+                <td class='sb-table-param-value' id='sb_first_cmp'></td>
+              </tr>
+              <tr>
+                <td class='sb-table-param-type'>utm_content:</td>
+                <td class='sb-table-param-value' id='sb_first_cnt'></td>
+              </tr>
+              <tr>
+                <td class='sb-table-param-type'>utm_term:</td>
+                <td class='sb-table-param-value' id='sb_first_trm'></td>
+              </tr>
+            </table>
+          </td>
+          <td>
+            <table>
+              <tr>
+                <td class='sb-table-param-type'>Type:</td>
+                <td class='sb-table-param-value' id='sb_current_typ'></td>
+              </tr>
+              <tr>
+                <td class='sb-table-param-type'>utm_source:</td>
+                <td class='sb-table-param-value' id='sb_current_src'></td>
+              </tr>
+              <tr>
+                <td class='sb-table-param-type'>utm_medium:</td>
+                <td class='sb-table-param-value' id='sb_current_mdm'></td>
+              </tr>
+              <tr>
+                <td class='sb-table-param-type'>utm_campaign:</td>
+                <td class='sb-table-param-value' id='sb_current_cmp'></td>
+              </tr>
+              <tr>
+                <td class='sb-table-param-type'>utm_content:</td>
+                <td class='sb-table-param-value' id='sb_current_cnt'></td>
+              </tr>
+              <tr>
+                <td class='sb-table-param-type'>utm_term:</td>
+                <td class='sb-table-param-value' id='sb_current_trm'></td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      <table>
+        <tr>
+          <td colspan='2'>
+            <table>
+              <tr>
+                <td class='sb-table-param-add-type'>IP:</td>
+                <td class='sb-table-param-add-value' id='sb_udata_uip'></td>
+              </tr>
+              <tr>
+                <td class='sb-table-param-add-type'>User agent:</td>
+                <td class='sb-table-param-add-value' id='sb_udata_uag'></td>
+              </tr>
+              <tr>
+                <td class='sb-table-param-add-type'>Дата первого визита:</td>
+                <td class='sb-table-param-add-value' id='sb_first_add_fd'></td>
+              </tr>
+              <tr>
+                <td class='sb-table-param-add-type'>Точка входа:</td>
+                <td class='sb-table-param-add-value' id='sb_first_add_ep'></td>
+              </tr>
+              <tr>
+                <td class='sb-table-param-add-type'>Текущий реферер:</td>
+                <td class='sb-table-param-add-value' id='sb_referer_ref'></td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      
+      <script type="text/javascript">
+        document.addEventListener('sbjs:ready', function() {
+          document.getElementById('sb_first_typ').innerHTML = get_sbjs.first.typ;
+          document.getElementById('sb_first_src').innerHTML = get_sbjs.first.src;
+          document.getElementById('sb_first_mdm').innerHTML = get_sbjs.first.mdm;
+          document.getElementById('sb_first_cmp').innerHTML = get_sbjs.first.cmp;
+          document.getElementById('sb_first_cnt').innerHTML = get_sbjs.first.cnt;
+          document.getElementById('sb_first_trm').innerHTML = get_sbjs.first.trm;
+
+          document.getElementById('sb_current_typ').innerHTML = get_sbjs.current.typ;
+          document.getElementById('sb_current_src').innerHTML = get_sbjs.current.src;
+          document.getElementById('sb_current_mdm').innerHTML = get_sbjs.current.mdm;
+          document.getElementById('sb_current_cmp').innerHTML = get_sbjs.current.cmp;
+          document.getElementById('sb_current_cnt').innerHTML = get_sbjs.current.cnt;
+          document.getElementById('sb_current_trm').innerHTML = get_sbjs.current.trm;
+
+
+          document.getElementById('sb_udata_uip').innerHTML = get_sbjs.udata.uip;
+          document.getElementById('sb_udata_uag').innerHTML = get_sbjs.udata.uag;
+          document.getElementById('sb_first_add_fd').innerHTML = get_sbjs.first_add.fd;
+          document.getElementById('sb_first_add_ep').innerHTML = get_sbjs.first_add.ep;
+          document.getElementById('sb_referer_ref').innerHTML = get_sbjs.referer.ref;
+        }, false);
+      </script>
+
+    </section>
+
+    <footer>
+      <p>&nbsp;</p>
+    </footer>
+
+  </body>
+</html>
