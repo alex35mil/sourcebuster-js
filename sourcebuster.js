@@ -25,12 +25,8 @@ function set_cookie(name, value, minutes, domain, excl_subdomains) {
   } else {
     expires = '';
   }
-  if (domain) {
-    if (excl_subdomains) {
-      var basehost = '';
-    } else {
-      var basehost = ';domain=.' + domain;
-    }
+  if (domain && !excl_subdomains) {
+    var basehost = ';domain=.' + domain;
   } else {
     basehost = '';
   }
