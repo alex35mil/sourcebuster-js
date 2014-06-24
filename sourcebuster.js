@@ -339,7 +339,7 @@ function destroy_cookie(name) {
     if (typeof SBJS_CUSTOM_SOURCES_REFERRAL !== 'undefined' && SBJS_CUSTOM_SOURCES_REFERRAL.length > 0) {
       for (var i = 0; i < SBJS_CUSTOM_SOURCES_REFERRAL.length; i++) {
         if (SBJS_CUSTOM_SOURCES_REFERRAL[i].length > 1 && parseUri(referer).host.match(new RegExp('^(.*\\.)?' + escape_regexp(SBJS_CUSTOM_SOURCES_REFERRAL[i][1]) + '$', 'i'))) {
-          __sbjs_source = SBJS_CUSTOM_SOURCES_REFERRAL[i][1];
+          __sbjs_source = SBJS_CUSTOM_SOURCES_REFERRAL[i][3] || SBJS_CUSTOM_SOURCES_REFERRAL[i][1];
           __sbjs_medium = SBJS_CUSTOM_SOURCES_REFERRAL[i][2] || SBJS_REFERER_REFERRAL;
           return true;
         }
