@@ -10,6 +10,10 @@
  * site content change
  * export data within forms to your CRM or analysis system.
 
+## Test page
+
+[http://statica.alexfedoseev.com/sourcebuster-js/](http://statica.alexfedoseev.com/sourcebuster-js/)
+
 ## Setup
 ### Foreword
 Script is written in pure JavaScript, doesn’t have any dependency on third-party libraries and doesn’t interacts with DOM’s objects, so it can be called as soon as you want it. Higher you’ll place it in the `<head>` tag, sooner you’ll get the cookies, whose data can be used for DOM’s objects manipulation (phones change etc.).
@@ -64,7 +68,7 @@ There are 5 types of user settings:
 _sbjs.push(['_setSessionLength', 15]);
 ```
 
-Setting up user session duration (in minutes).
+Setting up user session duration (in minutes).  
 In **sourcebuster.js** this parameter affects only referral sources overriding.
 
 A few words about sources overriding. When the visitor comes on your site for the first time, we receive and store the data about his source. After some time this visitor can return to your website, but from another source, and we need to have some rules to decide — should we overwrite previous source or we should not.
@@ -108,8 +112,8 @@ Pay attention to the third param `false` in the line for the main domain. Use it
 
 In our example if the visitor came for the first time on the main site **wow.com** by clicking on the link in user’s blog **alex.blog.wow.com**, his source (for the **wow.com**) will be **alex.blog.wow.com** (traffic type: *referral*).
 
-Let’s check that you understand when to use third param `false` in `_setBaseHost` setup:
-* host of the page, which code have setting `_setBaseHost` with param false must  be equal to the host provided in `_setBaseHost` line:
+How to check that third param `false` in `_setBaseHost` is in the right place:  
+* host of the page, which code have setting `_setBaseHost` with param `false` must be equal to the host provided in `_setBaseHost` line:
 
 ```javascript
 // CORRECT: on the pages of wow.com
@@ -184,22 +188,22 @@ If the visitor had more than one source, in this cookie will be the latest.
 
 *Params*  
 
-***typ***  
+* ***typ***  
 Traffic type. Possible values: utm, organic, referral, typein.
 
-***src***  
+* ***src***  
 Source. utm_source, actually.
 
-***mdm***  
+* ***mdm***  
 Medium, utm_medium. Can be customized using utm-params and `_addReferralSource`.
 
-***cmp***  
+* ***cmp***  
 Campaign. Value of utm_campaign.
 
-***cnt***  
+* ***cnt***  
 Content. Value of utm_content.
 
-***trm***  
+* ***trm***  
 Keyword. Value of utm_term.
 
 *Examples*  
@@ -226,10 +230,10 @@ Additional info of the first visit. Date and time + entrance point.
 
 *Params*  
 
-***fd***  
+* ***fd***  
 Date and time ofthe first visit.
 
-***ep***  
+* ***ep***  
 Entrance point.
 
 #### sbjs_session
@@ -247,7 +251,7 @@ Referer, which was stored when the current source was written (and previous sour
 
 *Params*  
 
-***ref***  
+* ***ref***  
 Referer URL.
 
 #### sbjs_udata
@@ -260,10 +264,10 @@ Additional user data: ip & user-agent.
 
 *Params*  
 
-***uip***  
+* ***uip***  
 Current ip-address.
 
-***uag***  
+* ***uag***  
 Current user-agent (browser).
 
 
@@ -323,4 +327,4 @@ window.onload = function() {
 }
 ```
 
-P.S. Sorry for English)
+P.S. Sorry for my English.
