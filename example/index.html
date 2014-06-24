@@ -15,9 +15,12 @@
 
       var _sbjs = _sbjs || [];
       _sbjs.push(['_setSessionLength', 15]);
-      _sbjs.push(['_setBaseHost', 'alexfedoseev.com']);
+      _sbjs.push(['_setBaseHost', 'statica.alexfedoseev.com']);
+      _sbjs.push(['_addOrganicSource', 'yahoo.com', 'p']);
       _sbjs.push(['_addOrganicSource', 'bing.com', 'q']);
       _sbjs.push(['_addReferralSource', 'facebook.com', 'social']);
+      _sbjs.push(['_addReferralSource', 't.co', 'social']);
+      _sbjs.push(['_addReferralSource', 'plus.url.google.com', 'social']);
 
       var sbjs = document.createElement('script'); sbjs.type = 'text/javascript'; sbjs.src = sbjs_location;
       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(sbjs, s);
@@ -30,19 +33,22 @@
       <header>
 
         <hgroup>
-          <h1>Sourcebuster JS</h1>
+          <h1>Sourcebuster JS Edition</h1>
         </hgroup>
               
       </header>
 
+      <section id='src-links'>
+        <a href='#' target='_blank'>About</a>&nbsp;&nbsp;&middot;&nbsp;&nbsp;<a href='#' target='_blank'>Download</a>&nbsp;&nbsp;&middot;&nbsp;&nbsp;<a href='https://github.com/alexfedoseev/sourcebuster-js' target='_blank'>GitHub</a>
+      </section>
 
       <table>
         <tr>
           <td width='350'>
-            <h3>Первый визит</h3>
+            <h3>First visit</h3>
           </td>
           <td width='350'>
-            <h3>Текущий визит</h3>
+            <h3>Current visit</h3>
           </td>
         </tr>
         <tr>
@@ -117,15 +123,15 @@
                 <td class='sb-table-param-add-value' id='sb_udata_uag'></td>
               </tr>
               <tr>
-                <td class='sb-table-param-add-type'>Дата первого визита:</td>
+                <td class='sb-table-param-add-type'>First visit date:</td>
                 <td class='sb-table-param-add-value' id='sb_first_add_fd'></td>
               </tr>
               <tr>
-                <td class='sb-table-param-add-type'>Точка входа:</td>
+                <td class='sb-table-param-add-type'>Entrance point:</td>
                 <td class='sb-table-param-add-value' id='sb_first_add_ep'></td>
               </tr>
               <tr>
-                <td class='sb-table-param-add-type'>Текущий реферер:</td>
+                <td class='sb-table-param-add-type'>Current referer:</td>
                 <td class='sb-table-param-add-value' id='sb_referer_ref'></td>
               </tr>
             </table>
@@ -134,7 +140,8 @@
       </table>
       
       <script type="text/javascript">
-        document.addEventListener('sbjs:ready', function() {
+
+        function place_data() {
           document.getElementById('sb_first_typ').innerHTML = get_sbjs.first.typ;
           document.getElementById('sb_first_src').innerHTML = get_sbjs.first.src;
           document.getElementById('sb_first_mdm').innerHTML = get_sbjs.first.mdm;
@@ -149,14 +156,56 @@
           document.getElementById('sb_current_cnt').innerHTML = get_sbjs.current.cnt;
           document.getElementById('sb_current_trm').innerHTML = get_sbjs.current.trm;
 
-
           document.getElementById('sb_udata_uip').innerHTML = get_sbjs.udata.uip;
           document.getElementById('sb_udata_uag').innerHTML = get_sbjs.udata.uag;
           document.getElementById('sb_first_add_fd').innerHTML = get_sbjs.first_add.fd;
           document.getElementById('sb_first_add_ep').innerHTML = get_sbjs.first_add.ep;
           document.getElementById('sb_referer_ref').innerHTML = get_sbjs.referer.ref;
+        }
+
+        document.addEventListener('sbjs:ready', function() {
+          place_data();
         }, false);
+
+        window.onload = function() {
+          if (document.getElementById('sb_first_typ').innerHTML === '') {
+            place_data();
+          }
+        }
+
       </script>
+
+      <section id='info'>
+        <h2>Test Links</h2>
+        <h3>UTM</h3>
+        <p>
+          <a href='./?utm_source=yandex&utm_medium=cpc&utm_campaign=y_test_sourcebuster_js&utm_term=sourcebuster_js_yandex_keyword'>?utm_source=yandex&utm_medium=cpc&utm_campaign=y_test_sourcebuster_js...</a><br>
+          <a href='./?utm_source=google&utm_medium=cpc&utm_campaign=g_test_sourcebuster_js&utm_term=sourcebuster_js_google_keyword'>?utm_source=google&utm_medium=cpc&utm_campaign=g_test_sourcebuster_js...</a>
+        </p>
+
+        <h3>Organic</h3>
+        <p>
+          <a href='https://www.google.com/#q=statica+alexfedoseev+sourcebuster-js'>Google</a>
+          &nbsp;&nbsp;&middot;&nbsp;&nbsp;
+          <a href=''>Yandex</a>
+          &nbsp;&nbsp;&middot;&nbsp;&nbsp;
+          <a href=''>Bing</a>
+        </p>
+
+        <h3>Referral</h3>
+        <p>
+          <a href='http://alexfedoseev.livejournal.com/86404.html'>livejournal.com</a>
+          &nbsp;&nbsp;&middot;&nbsp;&nbsp;
+          <a href=''>alexfedoseev.com</a>
+        </p>
+
+        <h3>Referral Custom</h3>
+        <p>
+          <a href=''>Twitter</a>
+          &nbsp;&nbsp;&middot;&nbsp;&nbsp;
+          <a href='https://plus.google.com/+%D0%9B%D1%91%D1%88%D0%B0%D0%A4%D0%B5%D0%B4%D0%BE%D1%81%D0%B5%D0%B5%D0%B2/posts/e1NqiXSquPo'>Google+</a>
+        </p>
+      </section>
 
     </section>
 

@@ -16,7 +16,7 @@ var SBJS_CURRENT_COOKIE = 'sbjs_current',
 
 // It's not a Rails, we don't have a waiters here
 function set_cookie(name, value, minutes, domain, excl_subdomains) {
-  var expires;
+  var expires, basehost;
 
   if (minutes) {
     var date = new Date();
@@ -26,7 +26,7 @@ function set_cookie(name, value, minutes, domain, excl_subdomains) {
     expires = '';
   }
   if (domain && !excl_subdomains) {
-    var basehost = ';domain=.' + domain;
+    basehost = ';domain=.' + domain;
   } else {
     basehost = '';
   }
