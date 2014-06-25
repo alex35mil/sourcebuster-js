@@ -10,12 +10,11 @@
  * site content change
  * export data within forms to your CRM or analysis system.
 
-## Test page
+## Links
 
-[http://statica.alexfedoseev.com/sourcebuster-js/](http://statica.alexfedoseev.com/sourcebuster-js/)
+[About (rus)](http://www.alexfedoseev.com/post/40/sourcebuster-js) &middot; [Download](http://statica.alexfedoseev.com/sourcebuster-js/download/sourcebuster-js-0.0.1.zip) &middot; [Test page](http://statica.alexfedoseev.com/sourcebuster-js/)
 
 ## Setup
-### Foreword
 Script is written in pure JavaScript, doesn’t have any dependency on third-party libraries and doesn’t interacts with DOM’s objects, so it can be called as soon as you want it. Higher you’ll place it in the `<head>` tag, sooner you’ll get the cookies, whose data can be used for DOM’s objects manipulation (phones change etc.).
 
 ### Simple setup
@@ -39,14 +38,16 @@ Fits for those who:
 
 ```javascript
 <script>
-  var sbjs_location = 'sourcebuster.js';
+  var sbjs_location = '../sourcebuster.js';
 
   var _sbjs = _sbjs || [];
   _sbjs.push(['_setSessionLength', 15]);
-  _sbjs.push(['_setBaseHost', 'alexfedoseev.com']);
+  _sbjs.push(['_setBaseHost', 'statica.alexfedoseev.com']);
+  _sbjs.push(['_addOrganicSource', 'yahoo.com', 'p']);
   _sbjs.push(['_addOrganicSource', 'bing.com', 'q']);
   _sbjs.push(['_addReferralSource', 'facebook.com', 'social']);
   _sbjs.push(['_addReferralSource', 't.co', 'social', 'twitter.com']);
+  _sbjs.push(['_addReferralSource', 'plus.url.google.com', 'social', 'plus.google.com']);
 
   var sbjs = document.createElement('script'); sbjs.type = 'text/javascript'; sbjs.src = sbjs_location;
   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(sbjs, s);
@@ -207,11 +208,20 @@ Content. Value of utm_content.
 Keyword. Value of utm_term.
 
 *Examples*  
-```
+```python
+# source: adv campaign with utms
 typ=utm|src=yandex|mdm=cpc|cmp=my_adv_campaign|cnt=banner_1|trm=buy_my_stuff
+
+# source: google's SERP
 typ=organic|src=google|mdm=organic|cmp=(none)|cnt=(none)|trm=(none)
+
+# source: referral from site.com
 typ=referral|src=site.com|mdm=referral|cmp=(none)|cnt=(none)|trm=(none)
+
+# source: facebook with _addReferralSource setting
 typ=referral|src=facebook.com|mdm=social|cmp=(none)|cnt=(none)|trm=(none)
+
+# source: direct visit
 typ=typein|src=typein|mdm=typein|cmp=(none)|cnt=(none)|trm=(none)
 ```
 
@@ -309,7 +319,10 @@ document.addEventListener('sbjs:ready', function() {
 }, false);
 ```
 
-There are limitations of using Events in old browsers (IE8 and lower), which can be solved the following way: for modern browsers we’ll fire the Event, for others old-school-hardcore-lovers we’ll fallback to `window.onload` with the check (`if` || `conditional comment`).
+### Limitations
+
+#### Events in old browsers
+It's about IE8 and lower, which don't understand `Event`. It can be solved the following way: for modern browsers we’ll fire the `Event`, for others old-school-hardcore-lovers we’ll fallback to `window.onload` (with the check — `if` or `conditional comment`).
 
 ```javascript
 function place_data() {
@@ -327,4 +340,14 @@ window.onload = function() {
 }
 ```
 
-P.S. Sorry for my English.
+#### Visits from https to http
+When the visitor come from `https` web-site to `http`, the request don't have a referer. So the script will consider it as `typein` (direct visit). It's also apply to visits from Google's SERP.
+
+In such cases **sourcebuster** will match the Google organic source only in desktop WebKit browsers (Chrome & Safari), because only they support `meta referrer` tag (google is using it).
+
+```html
+<meta name="referrer" content="origin">
+```
+
+#### Symbol "|" in utms
+If you use `|` in your `utm`s, then `get_sbjs` probably will give you incorrect results. Sorry e.
