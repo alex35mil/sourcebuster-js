@@ -12,7 +12,7 @@
 
 ## Links
 
-[About (rus)](http://www.alexfedoseev.com/post/40/sourcebuster-js) &middot; [Download](http://statica.alexfedoseev.com/sourcebuster-js/download/sourcebuster-js-0.0.1.zip) &middot; [Test page](http://statica.alexfedoseev.com/sourcebuster-js/)
+[About (rus)](http://www.alexfedoseev.com/post/40/sourcebuster-js) &middot; [Download](http://statica.alexfedoseev.com/sourcebuster-js/download/sourcebuster-js.zip) &middot; [Test page](http://statica.alexfedoseev.com/sourcebuster-js/) &middot; [Changelog](https://github.com/alexfedoseev/sourcebuster-js/blob/master/CHANGELOG.md)
 
 ## Setup
 Script is written in pure JavaScript, doesn’t have any dependency on third-party libraries and doesn’t interacts with DOM’s objects, so it can be called as soon as you want it. Higher you’ll place it in the `<head>` tag, sooner you’ll get the cookies, whose data can be used for DOM’s objects manipulation (phones change etc.).
@@ -43,6 +43,7 @@ Fits for those who:
   var _sbjs = _sbjs || [];
   _sbjs.push(['_setSessionLength', 15]);
   _sbjs.push(['_setBaseHost', 'statica.alexfedoseev.com']);
+  _sbjs.push(['_setCampaignParam', 'custom_campaign']);
   _sbjs.push(['_addOrganicSource', 'yahoo.com', 'p']);
   _sbjs.push(['_addOrganicSource', 'bing.com', 'q']);
   _sbjs.push(['_addReferralSource', 'facebook.com', 'social']);
@@ -56,12 +57,13 @@ Fits for those who:
 
 Put it in the `<head>` tag, provide the path to sourcebuster script in `sbjs_location` variable and push your custom settings into the core using `_sbjs.push`.
 
-There are 5 types of user settings:  
+There are 6 types of user settings:  
 * _setSessionLength
 * _setBaseHost
 * _addOrganicSource
 * _addReferralSource
 * _setUserIP
+* _setCampaignParam
 
 #### _setSessionLength
 
@@ -167,6 +169,41 @@ _sbjs.push(['_setUserIP', <%= request.remote_ip %>]);
 Sets user’s ip address.
 By default sourcebuster can’t store ip address of the visitor. But if you need it, you can get it on your back-end and push it using `_setUserIP` setting. In this example we get it using Ruby.
 
+#### _setCampaignParam (and Google AdWords `gclid` param handler)
+
+```javascript
+_sbjs.push(['_setCampaignParam', 'custom_campaign']);
+```
+
+Sets custom GET-param, whose value (if present) will be set as `utm_campaign` in cookies (if there is no original `utm_campaign` in request). This feature was added mainly because of Google AdWords `gclid` param. 
+
+Here is the use-case. If you have traffic from Google AdWords and you use `gclid` param, you can shorten your urls by removing `utm` out of it. Sourcebuster will match this traffic as `utm` from Google.
+
+If there is only `gclid` param in url:    
+http://statica.alexfedoseev.com/sourcebuster-js/?gclid=sMtH
+
+This will give you the following results:
+* Traffic type: utm
+* utm_source: google
+* utm_medium: cpc
+* utm_campaign: google_cpc
+* utm_content:  (none)
+* utm_term: (none)
+
+You can provide a custom `utm_campaign` name via `_setCampaignParam` and value of this GET-param:    
+http://statica.alexfedoseev.com/sourcebuster-js/?gclid=sMtH&custom_campaign=test_custom
+
+You'll get the following:
+* Traffic type: utm
+* utm_source: google
+* utm_medium: cpc
+* utm_campaign: test_custom
+* utm_content:  (none)
+* utm_term: (none)
+
+**WARNING** 
+* If there is original utm-param in request (`utm_source`, `utm_medium`, `utm_campaign`), it will override `gclid` param and `_setCampaignParam` param value.
+* If there is only custom campaign param (`_setCampaignParam`) in request, Sourcebuster will consider it as `utm` traffic. 
 
 ## Usage
 ### Cookies

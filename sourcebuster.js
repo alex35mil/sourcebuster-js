@@ -1,6 +1,6 @@
 // It's Sourcebuster [JS Edition], baby! (poolparty)
 // Author: Alex Fedoseev (www.alexfedoseev.com)
-// Version: 0.0.1
+// Version: 0.0.2
 
 // Github: https://github.com/alexfedoseev/sourcebuster-js
 // Blog post (rus): http://www.alexfedoseev.com/post/40/sourcebuster-js
@@ -98,6 +98,7 @@ function destroy_cookie(name) {
   // Set user params if any
   if (typeof _sbjs !== 'undefined' && _sbjs.length > 0) {
     for (var i = 0; i < _sbjs.length; i++) {
+
       if (_sbjs[i][0] === '_setBaseHost') {
         var SBJS_BASEHOST = _sbjs[i][1];
         if (_sbjs[i].length > 2) {
@@ -124,6 +125,11 @@ function destroy_cookie(name) {
         var SBJS_CUSTOM_SOURCES_REFERRAL = SBJS_CUSTOM_SOURCES_REFERRAL || [];
         SBJS_CUSTOM_SOURCES_REFERRAL.push(_sbjs[i]);
       }
+
+      if (_sbjs[i][0] === '_setCampaignParam') {
+        var SBJS_CAMPAIGN_PARAM = _sbjs[i][1];
+      }
+
     }
   }
 
@@ -205,7 +211,9 @@ function destroy_cookie(name) {
         typeof get_param.utm_medium !== 'undefined' ||
         typeof get_param.utm_campaign !== 'undefined' ||
         typeof get_param.utm_content !== 'undefined' ||
-        typeof get_param.utm_term !== 'undefined') {
+        typeof get_param.utm_term !== 'undefined' ||
+        typeof get_param.gclid !== 'undefined' ||
+        typeof get_param[SBJS_CAMPAIGN_PARAM] !== 'undefined') {
       set_referer_cookie();
       data = get_data(SBJS_UTM);
     } else if (check_referer(SBJS_ORGANIC)) {
@@ -227,9 +235,33 @@ function destroy_cookie(name) {
     switch (type) {
       case SBJS_UTM:
         __sbjs_type = SBJS_UTM;
-        __sbjs_source = get_param.utm_source || SBJS_NONE;
-        __sbjs_medium = get_param.utm_medium || SBJS_NONE;
-        __sbjs_campaign = get_param.utm_campaign || SBJS_NONE;
+
+        if (typeof get_param.utm_source !== 'undefined') {
+          __sbjs_source = get_param.utm_source;
+        } else if (typeof get_param.gclid !== 'undefined') {
+          __sbjs_source = 'google';
+        } else {
+          __sbjs_source = SBJS_NONE;
+        }
+        
+        if (typeof get_param.utm_medium !== 'undefined') {
+          __sbjs_medium = get_param.utm_medium;
+        } else if (typeof get_param.gclid !== 'undefined') {
+          __sbjs_medium = 'cpc';
+        } else {
+          __sbjs_medium = SBJS_NONE;
+        }
+
+        if (typeof get_param.utm_campaign !== 'undefined') {
+          __sbjs_campaign = get_param.utm_campaign;
+        } else if (typeof get_param[SBJS_CAMPAIGN_PARAM] !== 'undefined') {
+          __sbjs_campaign = get_param[SBJS_CAMPAIGN_PARAM];
+        } else if (typeof get_param.gclid !== 'undefined') {
+          __sbjs_campaign = 'google_cpc';
+        } else {
+          __sbjs_campaign = SBJS_NONE;
+        }
+
         __sbjs_content = get_param.utm_content || SBJS_NONE;
         __sbjs_term = get_param.utm_term || SBJS_NONE;
         break;
