@@ -358,7 +358,7 @@ function destroy_cookie(name) {
       return true;
     } else if (!!parseUri(referer).query && typeof SBJS_CUSTOM_SOURCES_ORGANIC !== 'undefined' && SBJS_CUSTOM_SOURCES_ORGANIC.length > 0) {
       for (var i = 0; i < SBJS_CUSTOM_SOURCES_ORGANIC.length; i++) {
-        if (SBJS_CUSTOM_SOURCES_ORGANIC[i].length === 3 && parseUri(referer).host.match(new RegExp('^(.*\\.)?' + escape_regexp(SBJS_CUSTOM_SOURCES_ORGANIC[i][1]) + '$', 'i')) && parseUri(referer).query.match(new RegExp('.*[?&]' + escape_regexp(SBJS_CUSTOM_SOURCES_ORGANIC[i][2]) + '=.*', 'i'))) {
+        if (SBJS_CUSTOM_SOURCES_ORGANIC[i].length === 3 && parseUri(referer).host.match(new RegExp('^(.*\\.)?' + escape_regexp(SBJS_CUSTOM_SOURCES_ORGANIC[i][1]) + '$', 'i')) && parseUri(referer).query.match(new RegExp('.*' + escape_regexp(SBJS_CUSTOM_SOURCES_ORGANIC[i][2]) + '=.*', 'i'))) {
           __sbjs_source = SBJS_CUSTOM_SOURCES_ORGANIC[i][1];
           return true;
         }
