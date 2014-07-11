@@ -1,3 +1,10 @@
+## 0.0.3
+
+Fixes:
+
+  - fix matching of custom organic source (added via `_addOrganicSource`)
+  - fix output of non-ASCII chars via `get_sbjs`
+
 ## 0.0.2
 
 Features:

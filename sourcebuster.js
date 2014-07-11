@@ -466,7 +466,7 @@ var get_sbjs = function() {
       var tmp_array = cookie_array[i2].split('='),
           result_array = tmp_array.splice(0, 1);
       result_array.push(tmp_array.join('='));
-      cookies[unsbjs(cookies_names_src[i1])][result_array[0]] = result_array[1];
+      cookies[unsbjs(cookies_names_src[i1])][result_array[0]] = decodeURI(result_array[1]);
     }
   }
 
