@@ -1,5 +1,15 @@
 ## 0.0.3
 
+Features:
+
+  - add `_setTimeZoneOffset` user setting to set default time zone
+  - add alias param to custom organic source (added via `_addOrganicSource`)
+
+Changes:
+
+  - change datetime format to `yyyy-mm-dd hh:mm:ss` (`2014-06-11 17:28:26`)
+  - store datetime in UTC by default
+
 Fixes:
 
   - fix matching of custom organic source (added via `_addOrganicSource`)

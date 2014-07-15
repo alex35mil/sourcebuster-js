@@ -130,6 +130,10 @@ function destroy_cookie(name) {
         var SBJS_CAMPAIGN_PARAM = _sbjs[i][1];
       }
 
+      if (_sbjs[i][0] === '_setTimeZoneOffset') {
+        var SBJS_TIMEZONE_OFFSET = parseInt(_sbjs[i][1]);
+      }
+
     }
   }
 
@@ -358,8 +362,8 @@ function destroy_cookie(name) {
       return true;
     } else if (!!parseUri(referer).query && typeof SBJS_CUSTOM_SOURCES_ORGANIC !== 'undefined' && SBJS_CUSTOM_SOURCES_ORGANIC.length > 0) {
       for (var i = 0; i < SBJS_CUSTOM_SOURCES_ORGANIC.length; i++) {
-        if (SBJS_CUSTOM_SOURCES_ORGANIC[i].length === 3 && parseUri(referer).host.match(new RegExp('^(.*\\.)?' + escape_regexp(SBJS_CUSTOM_SOURCES_ORGANIC[i][1]) + '$', 'i')) && parseUri(referer).query.match(new RegExp('.*' + escape_regexp(SBJS_CUSTOM_SOURCES_ORGANIC[i][2]) + '=.*', 'i'))) {
-          __sbjs_source = SBJS_CUSTOM_SOURCES_ORGANIC[i][1];
+        if (SBJS_CUSTOM_SOURCES_ORGANIC[i].length >= 3 && parseUri(referer).host.match(new RegExp('^(.*\\.)?' + escape_regexp(SBJS_CUSTOM_SOURCES_ORGANIC[i][1]) + '$', 'i')) && parseUri(referer).query.match(new RegExp('.*' + escape_regexp(SBJS_CUSTOM_SOURCES_ORGANIC[i][2]) + '=.*', 'i'))) {
+          __sbjs_source = SBJS_CUSTOM_SOURCES_ORGANIC[i][3] || SBJS_CUSTOM_SOURCES_ORGANIC[i][1];
           return true;
         }
         if (i + 1 === SBJS_CUSTOM_SOURCES_ORGANIC.length) {
@@ -390,6 +394,35 @@ function destroy_cookie(name) {
     }
   }
 
+  function set_leading_zero_to_int(num, size) {
+    var s = num + '';
+    while (s.length < size) s = '0' + s;
+    return s;
+  }
+
+  function set_date(date) {
+    var utc_offset = date.getTimezoneOffset() / 60,
+        now_hours = date.getHours(),
+        custom_offset;
+    if (typeof SBJS_TIMEZONE_OFFSET !== 'undefined' && typeof SBJS_TIMEZONE_OFFSET === 'number' && SBJS_TIMEZONE_OFFSET % 1 == 0) {
+      custom_offset = SBJS_TIMEZONE_OFFSET;
+    } else {
+      custom_offset = 0;
+    };
+    date.setHours(now_hours + utc_offset + custom_offset);
+
+    var date_string,
+        year = date.getFullYear(),
+        month = set_leading_zero_to_int(date.getMonth(), 2),
+        day = set_leading_zero_to_int(date.getDate(), 2),
+        hour = set_leading_zero_to_int(date.getHours(), 2),
+        minute = set_leading_zero_to_int(date.getMinutes(), 2),
+        second = set_leading_zero_to_int(date.getSeconds(), 2);
+
+    date_string = year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second;
+    return date_string;
+  }
+
   function combine_sbjs_main_data_string(data) {
     return  SBJS_TYPE_ALIAS + '=' + data.sbjs_type + '|' + 
             SBJS_SOURCE_ALIAS + '=' + data.sbjs_source + '|' + 
@@ -409,7 +442,8 @@ function destroy_cookie(name) {
   }
 
   function combine_sbjs_first_add_data_string() {
-    return (SBJS_FIRST_DATE_ALIAS + '=' + Date() + '|' + SBJS_ENTRANCE_POINT_ALIAS + '=' + location.href);
+    var current_date = new Date();
+    return (SBJS_FIRST_DATE_ALIAS + '=' + set_date(current_date) + '|' + SBJS_ENTRANCE_POINT_ALIAS + '=' + location.href);
   }
 
   function set_sbjs_data() {
@@ -466,7 +500,7 @@ var get_sbjs = function() {
       var tmp_array = cookie_array[i2].split('='),
           result_array = tmp_array.splice(0, 1);
       result_array.push(tmp_array.join('='));
-      cookies[unsbjs(cookies_names_src[i1])][result_array[0]] = decodeURI(result_array[1]);
+      cookies[unsbjs(cookies_names_src[i1])][result_array[0]] = decodeURIComponent(result_array[1]);
     }
   }
 
