@@ -12,7 +12,7 @@
 
 ## Links
 
-[About (rus)](http://www.alexfedoseev.com/post/40/sourcebuster-js) &middot; [Download](http://statica.alexfedoseev.com/sourcebuster-js/download/sourcebuster-js.zip) &middot; [Test page](http://statica.alexfedoseev.com/sourcebuster-js/) &middot; [Changelog](https://github.com/alexfedoseev/sourcebuster-js/blob/master/CHANGELOG.md)
+[About (rus)](http://www.alexfedoseev.com/post/40/sourcebuster-js) &middot; [Download](https://github.com/alexfedoseev/sourcebuster-js/archive/master.zip) &middot; [Test page](http://statica.alexfedoseev.com/sourcebuster-js/) &middot; [Changelog](https://github.com/alexfedoseev/sourcebuster-js/blob/master/CHANGELOG.md)
 
 ## Setup
 Script is written in pure JavaScript, doesn’t have any dependency on third-party libraries and doesn’t interacts with DOM’s objects, so it can be called as soon as you want it. Higher you’ll place it in the `<head>` tag, sooner you’ll get the cookies, whose data can be used for DOM’s objects manipulation (phones change etc.).
@@ -43,9 +43,10 @@ Fits for those who:
   var _sbjs = _sbjs || [];
   _sbjs.push(['_setSessionLength', 15]);
   _sbjs.push(['_setBaseHost', 'statica.alexfedoseev.com']);
+  _sbjs.push(['_setTimeZoneOffset', 4]);
   _sbjs.push(['_setCampaignParam', 'custom_campaign']);
   _sbjs.push(['_addOrganicSource', 'yahoo.com', 'p']);
-  _sbjs.push(['_addOrganicSource', 'bing.com', 'q']);
+  _sbjs.push(['_addOrganicSource', 'bing.com', 'q', 'bing']);
   _sbjs.push(['_addReferralSource', 'facebook.com', 'social']);
   _sbjs.push(['_addReferralSource', 't.co', 'social', 'twitter.com']);
   _sbjs.push(['_addReferralSource', 'plus.url.google.com', 'social', 'plus.google.com']);
@@ -57,9 +58,10 @@ Fits for those who:
 
 Put it in the `<head>` tag, provide the path to sourcebuster script in `sbjs_location` variable and push your custom settings into the core using `_sbjs.push`.
 
-There are 6 types of user settings:  
+There are 7 types of user settings:  
 * _setSessionLength
 * _setBaseHost
+* _setTimeZoneOffset
 * _addOrganicSource
 * _addReferralSource
 * _setUserIP
@@ -132,15 +134,29 @@ _sbjs.push(['_setBaseHost', 'wow.com', false]);
 => *.wow.com → wow.com will be referral
 ```
 
+#### _setTimeZoneOffset
+
+```javascript
+_sbjs.push(['_setTimeZoneOffset', 4]);
+```
+
+Setting up time zone.    
+Date is saved in UTC by default. But you can set different time zone via `_setTimeZoneOffset`.
+
+
+
+
+
 #### _addOrganicSource
 
 ```javascript
-_sbjs.push(['_addOrganicSource', 'bing.com', 'q']);
+_sbjs.push(['_addOrganicSource', 'yahoo.com', 'p']);
+_sbjs.push(['_addOrganicSource', 'bing.com', 'q', 'bing']);
 ```
 
 Adds Organic source. You can use this setting if you want to add more organic sources.
 
-For example you want the traffic from the SERP of **bing.com** to be organic. So you need to provide basehost — `'bing.com'`, and the param of keyword — `'q'`. Both params are required.
+For example you want the traffic from the SERP of **bing.com** to be organic. So you need to provide basehost — `'bing.com'`, and the param of keyword — `'q'`. Both params are required. Also you can set alias for the source via optional third param (`'bing'`).
 
 To get the keyword param go to **bing.com** and search for smth, **“apple”** for example. After you’ll get to the SERP, explore its URL:  
 *http://www.bing.com/search?q=apple&go=&qs=n&form=QBLH&pq=apple&sc=8-5&sp=-1&sk=&cvid=718ad07527244c319ecebf44aa261f64*
@@ -273,12 +289,13 @@ Just like `sbjs_current`, but stores params of the very first visit. Placed once
 Additional info of the first visit. Date and time + entrance point.
 
 *Format*  
-`fd=Thu Jun 19 2014 16:09:12 GMT+0800 (WITA)|ep=http://statica.alexfedoseev.com/sourcebuster-js/`
+`fd=2014-06-11 17:28:26|ep=http://statica.alexfedoseev.com/sourcebuster-js/`
 
 *Params*  
 
 * ***fd***  
-Date and time ofthe first visit.
+Date and time ofthe first visit. Format: `yyyy-mm-dd hh:mm:ss`. In UTC by default. Time zone can be customized via `_setTimeZoneOffset`.
+
 
 * ***ep***  
 Entrance point.
@@ -378,13 +395,7 @@ window.onload = function() {
 ```
 
 #### Visits from https to http
-When the visitor come from `https` web-site to `http`, the request don't have a referer. So the script will consider it as `typein` (direct visit). It's also apply to visits from Google's SERP.
-
-In such cases **sourcebuster** will match the Google organic source only in desktop WebKit browsers (Chrome & Safari), because only they support `meta referrer` tag (google is using it).
-
-```html
-<meta name="referrer" content="origin">
-```
+When the visitor come from `https` web-site to `http`, the request don't have a referer. So the script will consider it as `typein` (direct visit).
 
 #### Symbol "|" in utms
 If you use `|` in your `utm`s, then `get_sbjs` probably will give you incorrect results. Sorry e.
