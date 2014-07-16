@@ -463,9 +463,6 @@ function destroy_cookie(name) {
     set_cookie(SBJS_SESSION_COOKIE, '1', session_length, basehost, !is_true_basehost);
     set_cookie(SBJS_UDATA_COOKIE, combine_sbjs_user_data_string(), SBJS_COOKIE_EXPIRES, basehost, !is_true_basehost);
 
-    sbjs_set = new Event('sbjs:set');
-    document.dispatchEvent(sbjs_set);
-
   }
 
   // Boom!
@@ -503,15 +500,8 @@ var get_sbjs = function() {
       cookies[unsbjs(cookies_names_src[i1])][result_array[0]] = decodeURIComponent(result_array[1]);
     }
   }
-
   return cookies;
 }();
-
-// Fire this baby
-if (typeof get_sbjs !== 'undefined') {
-  sbjs_ready = new Event('sbjs:ready');
-  document.dispatchEvent(sbjs_ready);
-}
 
 
 // Sound Check

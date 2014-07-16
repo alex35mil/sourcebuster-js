@@ -143,6 +143,14 @@
       
       <script type="text/javascript">
 
+        function ie_load_bug_fix(script, callback) {
+          if (script.readyState == 'loaded' || script.readyState == 'completed') {
+            callback();
+          } else {
+            setTimeout(function() { ie_load_bug_fix(script, callback); }, 100);
+          }
+        }
+
         function place_data() {
           document.getElementById('sb_first_typ').innerHTML = get_sbjs.first.typ;
           document.getElementById('sb_first_src').innerHTML = get_sbjs.first.src;
@@ -165,13 +173,13 @@
           document.getElementById('sb_referer_ref').innerHTML = get_sbjs.referer.ref;
         }
 
-        document.addEventListener('sbjs:ready', function() {
+        if (typeof get_sbjs !== 'undefined') {
           place_data();
-        }, false);
-
-        window.onload = function() {
-          if (document.getElementById('sb_first_typ').innerHTML === '') {
-            place_data();
+        } else {
+          if (window.addEventListener) {
+            sbjs.addEventListener('load', place_data, false);
+          } else if (window.attachEvent) {
+            ie_load_bug_fix(sbjs, place_data);
           }
         }
 

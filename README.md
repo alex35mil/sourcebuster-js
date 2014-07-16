@@ -21,7 +21,7 @@ Script is written in pure JavaScript, doesn’t have any dependency on third-par
 Place in the `<head>` tag:
 
 ```html
-<script src="sourcebuster.js"></script>
+<script src="/path/to/sourcebuster.min.js" id="sbjs"></script>
 ```
 
 Fits for those who:
@@ -38,7 +38,7 @@ Fits for those who:
 
 ```javascript
 <script>
-  var sbjs_location = '../sourcebuster.js';
+  var sbjs_location = '/path/to/sourcebuster.min.js';
 
   var _sbjs = _sbjs || [];
   _sbjs.push(['_setSessionLength', 15]);
@@ -142,10 +142,6 @@ _sbjs.push(['_setTimeZoneOffset', 4]);
 
 Setting up time zone.    
 Date is saved in UTC by default. But you can set different time zone via `_setTimeZoneOffset`.
-
-
-
-
 
 #### _addOrganicSource
 
@@ -361,38 +357,48 @@ Of course you can parse the cookies on your back.
 
 ### Using the data
 
-To manipulate with DOM’s objects sourcebuster.js have 2 events:
-* `'sbjs:set'` — cookies are placed
-* `'sbjs:ready'` — data are available through get_sbjs
+Let's print on the page current source of the visitor. To do this we need `get_sbjs` to be defined. If it's not, we have to wait until sourcebuster is loaded, and only after it, run the function, which will place the current source on the page. Also we will need a little fix-function for IE8 and lower to run the function in the right time (after sourcebuster is loaded).
 
-Example:
+Here it is:
 
 ```javascript
-document.addEventListener('sbjs:ready', function() {
-  document.getElementById('sb_first_typ').innerHTML = get_sbjs.first.typ;
-}, false);
+// container for current source
+<div id="data-box"></div>
+
+<script type="text/javascript">
+
+  // fix/helper for IE: run callback-function only after main script is loaded
+  function ie_load_bug_fix(script, callback) {
+    if (script.readyState == 'loaded' || script.readyState == 'completed') {
+      callback();
+    } else {
+      setTimeout(function() { ie_load_bug_fix(script, callback); }, 100);
+    }
+  }
+
+  // function, which places current source
+  function place_data() {
+    document.getElementById('data-box').innerHTML = get_sbjs.current.src;
+  }
+  
+  // and action:
+  // first we're checking if get_sbjs is defined
+  // if it is, we are placing the data
+  // otherwise, we're checking the browser and placing the data only after sourcebuster is loaded
+  if (typeof get_sbjs !== 'undefined') {
+    place_data();
+  } else {
+    if (window.addEventListener) {
+      sbjs.addEventListener('load', place_data, false);
+    } else if (window.attachEvent) {
+      ie_load_bug_fix(sbjs, place_data);
+    }
+  }
+
+</script>
 ```
 
 ### Limitations
-
-#### Events in old browsers
-It's about IE8 and lower, which don't understand `Event`. It can be solved the following way: for modern browsers we’ll fire the `Event`, for others old-school-hardcore-lovers we’ll fallback to `window.onload` (with the check — `if` or `conditional comment`).
-
-```javascript
-function place_data() {
-  document.getElementById('sb_first_typ').innerHTML = get_sbjs.first.typ;
-}
-
-document.addEventListener('sbjs:ready', function() {
-  place_data();
-}, false);
-
-window.onload = function() {
-  if (document.getElementById('sb_first_typ').innerHTML === '') {
-    place_data();
-  }
-}
-```
 
 #### Visits from https to http
 When the visitor come from `https` web-site to `http`, the request don't have a referer. So the script will consider it as `typein` (direct visit).
