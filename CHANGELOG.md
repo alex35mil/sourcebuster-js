@@ -11,6 +11,7 @@ Changes:
   - change datetime format to `yyyy-mm-dd hh:mm:ss` (`2014-06-11 17:28:26`)
   - store datetime in UTC by default
   - remove events `'sbjs:set'` and `'sbjs:ready'` (see *Using the data* section for details)
+  - decode URI params before store it in cookies
 
 Fixes:
 

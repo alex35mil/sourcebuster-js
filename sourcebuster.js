@@ -425,11 +425,11 @@ function destroy_cookie(name) {
 
   function combine_sbjs_main_data_string(data) {
     return  SBJS_TYPE_ALIAS + '=' + data.sbjs_type + '|' + 
-            SBJS_SOURCE_ALIAS + '=' + data.sbjs_source + '|' + 
-            SBJS_MEDIUM_ALIAS + '=' + data.sbjs_medium + '|' + 
-            SBJS_CAMPAIGN_ALIAS + '=' + data.sbjs_campaign + '|' + 
-            SBJS_CONTENT_ALIAS + '=' + data.sbjs_content + '|' + 
-            SBJS_TERM_ALIAS + '=' + data.sbjs_term;
+            SBJS_SOURCE_ALIAS + '=' + decodeURIComponent(data.sbjs_source) + '|' + 
+            SBJS_MEDIUM_ALIAS + '=' + decodeURIComponent(data.sbjs_medium) + '|' + 
+            SBJS_CAMPAIGN_ALIAS + '=' + decodeURIComponent(data.sbjs_campaign) + '|' + 
+            SBJS_CONTENT_ALIAS + '=' + decodeURIComponent(data.sbjs_content) + '|' + 
+            SBJS_TERM_ALIAS + '=' + decodeURIComponent(data.sbjs_term);
   }
 
   function combine_sbjs_user_data_string() {
@@ -443,7 +443,7 @@ function destroy_cookie(name) {
 
   function combine_sbjs_first_add_data_string() {
     var current_date = new Date();
-    return (SBJS_FIRST_DATE_ALIAS + '=' + set_date(current_date) + '|' + SBJS_ENTRANCE_POINT_ALIAS + '=' + location.href);
+    return (SBJS_FIRST_DATE_ALIAS + '=' + set_date(current_date) + '|' + SBJS_ENTRANCE_POINT_ALIAS + '=' + decodeURI(location.href));
   }
 
   function set_sbjs_data() {
