@@ -349,7 +349,7 @@ function destroy_cookie(name) {
         y_param = 'text',
         g_host = 'google';
     var y_host_regex = new RegExp('^(.*\\.)?' + escape_regexp(y_host) + '\\..{2,9}$'),
-        y_param_regex = new RegExp('.*[?&]' + escape_regexp(y_param) + '=.*'),
+        y_param_regex = new RegExp('.*' + escape_regexp(y_param) + '=.*'),
         g_host_regex = new RegExp('^(www\\.)?' + escape_regexp(g_host) + '\\..{2,9}$');
 
     if (!!parseUri(referer).query && 

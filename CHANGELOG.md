@@ -14,6 +14,7 @@ Changes:
 
 Fixes:
 
+  - fix matching of Yandex organic source
   - fix matching of custom organic source (added via `_addOrganicSource`)
   - fix for IE8 and lower
   - fix output of non-ASCII chars via `get_sbjs`
