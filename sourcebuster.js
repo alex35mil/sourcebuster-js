@@ -1,6 +1,6 @@
 // It's Sourcebuster [JS Edition], baby! (poolparty)
 // Author: Alex Fedoseev (www.alexfedoseev.com)
-// Version: 0.0.2
+// Version: 0.0.3
 
 // Github: https://github.com/alexfedoseev/sourcebuster-js
 // Blog post (rus): http://www.alexfedoseev.com/post/40/sourcebuster-js
