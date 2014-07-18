@@ -38,8 +38,6 @@ Fits for those who:
 
 ```javascript
 <script>
-  var sbjs_location = '/path/to/sourcebuster.min.js';
-
   var _sbjs = _sbjs || [];
   _sbjs.push(['_setSessionLength', 15]);
   _sbjs.push(['_setBaseHost', 'statica.alexfedoseev.com']);
@@ -50,13 +48,11 @@ Fits for those who:
   _sbjs.push(['_addReferralSource', 'facebook.com', 'social']);
   _sbjs.push(['_addReferralSource', 't.co', 'social', 'twitter.com']);
   _sbjs.push(['_addReferralSource', 'plus.url.google.com', 'social', 'plus.google.com']);
-
-  var sbjs = document.createElement('script'); sbjs.type = 'text/javascript'; sbjs.src = sbjs_location;
-  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(sbjs, s);
 </script>
+<script src="/path/to/sourcebuster.min.js" id="sbjs"></script>
 ```
 
-Put it in the `<head>` tag, provide the path to sourcebuster script in `sbjs_location` variable and push your custom settings into the core using `_sbjs.push`.
+Put it in the `<head>` tag: push your custom settings into the core using `_sbjs.push` and load sourcebuster script right after it.
 
 There are 7 types of user settings:  
 * _setSessionLength

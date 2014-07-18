@@ -502,12 +502,3 @@ var get_sbjs = function() {
   }
   return cookies;
 }();
-
-
-// Sound Check
-console.log('Current: ' + get_cookie(SBJS_CURRENT_COOKIE));
-console.log('First: ' + get_cookie(SBJS_FIRST_COOKIE));
-console.log('First (add): ' + get_cookie(SBJS_FIRST_ADD_COOKIE));
-console.log('Session: ' + get_cookie(SBJS_SESSION_COOKIE));
-console.log('User: ' + get_cookie(SBJS_UDATA_COOKIE));
-console.log('Referer: ' + get_cookie(SBJS_REFERER_COOKIE));

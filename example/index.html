@@ -11,8 +11,6 @@
     <link rel="stylesheet" href="sourcebuster.css" />
 
     <script>
-      var sbjs_location = '../sourcebuster.js';
-
       var _sbjs = _sbjs || [];
       _sbjs.push(['_setSessionLength', 15]);
       _sbjs.push(['_setBaseHost', 'statica.alexfedoseev.com']);
@@ -23,10 +21,8 @@
       _sbjs.push(['_addReferralSource', 'facebook.com', 'social']);
       _sbjs.push(['_addReferralSource', 't.co', 'social', 'twitter.com']);
       _sbjs.push(['_addReferralSource', 'plus.url.google.com', 'social', 'plus.google.com']);
-
-      var sbjs = document.createElement('script'); sbjs.type = 'text/javascript'; sbjs.src = sbjs_location;
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(sbjs, s);
     </script>
+    <script src="../sourcebuster.min.js" id="sbjs"></script>
 
   </head>
   <body>
