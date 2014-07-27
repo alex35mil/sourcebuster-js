@@ -1,0 +1,23 @@
+{
+  "name": "sourcebuster",
+  "version": "0.0.4",
+  "description": "Sourcebuster JS Edition",
+  "main": "js/sourcebuster.min.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alexfedoseev/sourcebuster-js.git"
+  },
+  "author": "Alex Fedoseev",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/alexfedoseev/sourcebuster-js/issues"
+  },
+  "homepage": "https://github.com/alexfedoseev/sourcebuster-js",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-uglify": "^0.5.1"
+  }
+}

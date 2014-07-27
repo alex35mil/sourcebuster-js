@@ -1,3 +1,9 @@
+## 0.0.4
+
+Changes:
+
+  - switch from Closure Compiler to UglifyJS minification library
+
 ## 0.0.3
 
 Features:

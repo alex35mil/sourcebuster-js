@@ -1,0 +1,9 @@
+*.swp
+*~
+*.iws
+*.log
+.project
+.DS_Store
+.sass-cache
+.idea
+node_modules/
