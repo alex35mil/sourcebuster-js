@@ -17,6 +17,35 @@ var SBJS_CURRENT_COOKIE = 'sbjs_current',
     SBJS_UDATA_COOKIE = 'sbjs_udata',
     SBJS_COOKIE_EXPIRES = 1000000;
 
+// Encode/Decode helpers
+function encode_data(s) {
+  return encodeURIComponent(s).replace(/\!/g, "%21")
+                              //.replace(/\-/g, "%2D")
+                              //.replace(/\_/g, "%5F")
+                              //.replace(/\./g, "%2E")
+                              .replace(/\~/g, "%7E")
+                              .replace(/\*/g, "%2A")
+                              .replace(/\'/g, "%27")
+                              .replace(/\(/g, "%28")
+                              .replace(/\)/g, "%29");
+}
+
+function decode_data(s) {
+  try {
+    return decodeURIComponent(s).replace(/\%21/g, "!")
+                                //.replace(/\%2D/g, "-")
+                                //.replace(/\%5F/g, "_")
+                                //.replace(/\%2E/g, ".")
+                                .replace(/\%7E/g, "~")
+                                .replace(/\%2A/g, "*")
+                                .replace(/\%27/g, "'")
+                                .replace(/\%28/g, "(")
+                                .replace(/\%29/g, ")");
+  } catch(err) {
+    // try unescape for backward compatibility
+    try { return unescape(s); } catch(err) { return ""; }
+  }
+}
 
 // It's not a Rails, we don't have a waiters here
 function set_cookie(name, value, minutes, domain, excl_subdomains) {
@@ -34,17 +63,17 @@ function set_cookie(name, value, minutes, domain, excl_subdomains) {
   } else {
     basehost = '';
   }
-  document.cookie = escape(name) + '=' + escape(value) + expires + basehost + '; path=/';
+  document.cookie = encode_data(name) + '=' + encode_data(value) + expires + basehost + '; path=/';
 }
 
 function get_cookie(name) {
-  var nameEQ = escape(name) + '=',
+  var nameEQ = encode_data(name) + '=',
       ca = document.cookie.split(';');
 
   for (var i = 0; i < ca.length; i++) {
     var c = ca[i];
     while (c.charAt(0) === ' ') c = c.substring(1, c.length);
-    if (c.indexOf(nameEQ) === 0) return unescape(c.substring(nameEQ.length, c.length));
+    if (c.indexOf(nameEQ) === 0) return decode_data(c.substring(nameEQ.length, c.length));
   }
   return null;
 }
@@ -189,7 +218,7 @@ function destroy_cookie(name) {
       strict: /^(?:([^:\/?#]+):)?(?:\/\/((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?))?((((?:[^?#\/]*\/)*)([^?#]*))(?:\?([^#]*))?(?:#(.*))?)/,
       loose:  /^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/
     }
-  }
+  };
   // parseUri 1.2.2
 
 
@@ -408,7 +437,7 @@ function destroy_cookie(name) {
       custom_offset = SBJS_TIMEZONE_OFFSET;
     } else {
       custom_offset = 0;
-    };
+    }
     date.setHours(now_hours + utc_offset + custom_offset);
 
     var date_string,
@@ -497,7 +526,7 @@ var get_sbjs = function() {
       var tmp_array = cookie_array[i2].split('='),
           result_array = tmp_array.splice(0, 1);
       result_array.push(tmp_array.join('='));
-      cookies[unsbjs(cookies_names_src[i1])][result_array[0]] = decodeURIComponent(result_array[1]);
+      cookies[unsbjs(cookies_names_src[i1])][result_array[0]] = decode_data(result_array[1]);
     }
   }
   return cookies;
