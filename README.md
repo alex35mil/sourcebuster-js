@@ -16,6 +16,7 @@
 
 ## Install
 You can [download this repo](https://github.com/alexfedoseev/sourcebuster-js/archive/master.zip) and use `sourcebuster.min.js` from `/js` folder.
+
 Or install it from Bower:
 
 ```
@@ -51,8 +52,8 @@ Fits for those who:
   _sbjs.push(['_setBaseHost', 'statica.alexfedoseev.com']);
   _sbjs.push(['_setTimeZoneOffset', 4]);
   _sbjs.push(['_setCampaignParam', 'custom_campaign']);
-  _sbjs.push(['_addOrganicSource', 'yahoo.com', 'p']);
-  _sbjs.push(['_addOrganicSource', 'bing.com', 'q', 'bing']);
+  _sbjs.push(['_addOrganicSource', 'lycos.com', 'q']);
+  _sbjs.push(['_addOrganicSource', 'bing.com', 'q', 'bing_in_da_house']);
   _sbjs.push(['_addReferralSource', 'facebook.com', 'social']);
   _sbjs.push(['_addReferralSource', 't.co', 'social', 'twitter.com']);
   _sbjs.push(['_addReferralSource', 'plus.url.google.com', 'social', 'plus.google.com']);
@@ -153,7 +154,7 @@ There are already a number of predefined organic sources in the core:
 
 ```
 Source         ->  Alias
-------------------
+-------------------------
 bing.com       ->  bing
 yahoo.com      ->  yahoo
 about.com      ->  about
@@ -168,6 +169,7 @@ tut.by         ->  tut.by
 But you can use this setting, if you want to add more organic sources or override aliases of predefined ones.
 
 ```javascript
+_sbjs.push(['_addOrganicSource', 'lycos.com', 'q']);
 _sbjs.push(['_addOrganicSource', 'bing.com', 'q', 'bing_in_da_house']);
 ```
 
