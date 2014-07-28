@@ -1,5 +1,9 @@
 ## 0.0.4
 
+Features:
+
+  - add Sourcebuster to `bower` ([bower.io](http://bower.io))
+
 Changes:
 
   - switch from Closure Compiler to UglifyJS minification library
