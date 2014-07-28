@@ -30,8 +30,7 @@ module.exports = function(grunt) {
         strict: false,
         indent: 2
       },
-      beforeuglify: ['js/<%= pkg.name %>.js'],
-      afteruglify: ['js/<%= pkg.name %>.min.js']
+      beforeuglify: ['js/<%= pkg.name %>.js']
     }
   });
 
