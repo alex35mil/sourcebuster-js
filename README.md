@@ -14,6 +14,14 @@
 
 [About (rus)](http://www.alexfedoseev.com/post/40/sourcebuster-js) &middot; [Download](https://github.com/alexfedoseev/sourcebuster-js/archive/master.zip) &middot; [Test page](http://statica.alexfedoseev.com/sourcebuster-js/) &middot; [Changelog](https://github.com/alexfedoseev/sourcebuster-js/blob/master/CHANGELOG.md)
 
+## Install
+You can [download this repo](https://github.com/alexfedoseev/sourcebuster-js/archive/master.zip) and use `sourcebuster.min.js` from `/js` folder.
+Or install it from Bower:
+
+```
+bower install --save sourcebuster-js
+```
+
 ## Setup
 Script is written in pure JavaScript, doesn’t have any dependency on third-party libraries and doesn’t interacts with DOM’s objects, so it can be called as soon as you want it. Higher you’ll place it in the `<head>` tag, sooner you’ll get the cookies, whose data can be used for DOM’s objects manipulation (phones change etc.).
 
@@ -141,14 +149,29 @@ Date is saved in UTC by default. But you can set different time zone via `_setTi
 
 #### _addOrganicSource
 
-```javascript
-_sbjs.push(['_addOrganicSource', 'yahoo.com', 'p']);
-_sbjs.push(['_addOrganicSource', 'bing.com', 'q', 'bing']);
+There are already a number of predefined organic sources in the core:
+
+```
+Source         ->  Alias
+------------------
+bing.com       ->  bing
+yahoo.com      ->  yahoo
+about.com      ->  about
+aol.com        ->  aol
+ask.com        ->  ask
+globososo.com  ->  globo
+go.mail.ru     ->  go.mail.ru
+rambler.ru     ->  rambler
+tut.by         ->  tut.by
 ```
 
-Adds Organic source. You can use this setting if you want to add more organic sources.
+But you can use this setting, if you want to add more organic sources or override aliases of predefined ones.
 
-For example you want the traffic from the SERP of **bing.com** to be organic. So you need to provide basehost — `'bing.com'`, and the param of keyword — `'q'`. Both params are required. Also you can set alias for the source via optional third param (`'bing'`).
+```javascript
+_sbjs.push(['_addOrganicSource', 'bing.com', 'q', 'bing_in_da_house']);
+```
+
+For example you want the traffic from the SERP of **bing.com** to be organic and the alias for this source to be `bing_in_da_house`. So you need to provide basehost — `'bing.com'`, and the param of keyword — `'q'`. Both params are required. Also, to set custom alias for the source, provide optional third param (`'bing_in_da_house'`).
 
 To get the keyword param go to **bing.com** and search for smth, **“apple”** for example. After you’ll get to the SERP, explore its URL:  
 *http://www.bing.com/search?q=apple&go=&qs=n&form=QBLH&pq=apple&sc=8-5&sp=-1&sk=&cvid=718ad07527244c319ecebf44aa261f64*

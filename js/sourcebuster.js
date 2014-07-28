@@ -82,6 +82,17 @@ function destroy_cookie(name) {
   set_cookie(name, '', -1);
 }
 
+// Set predefined organic custom sources
+var _sbjs = _sbjs || [];
+_sbjs.push(['_addOrganicSource', 'bing.com', 'q', 'bing']);
+_sbjs.push(['_addOrganicSource', 'yahoo.com', 'p', 'yahoo']);
+_sbjs.push(['_addOrganicSource', 'about.com', 'q', 'about']);
+_sbjs.push(['_addOrganicSource', 'aol.com', 'q', 'aol']);
+_sbjs.push(['_addOrganicSource', 'ask.com', 'q', 'ask']);
+_sbjs.push(['_addOrganicSource', 'globososo.com', 'q', 'globo']);
+_sbjs.push(['_addOrganicSource', 'go.mail.ru', 'q', 'go.mail.ru']);
+_sbjs.push(['_addOrganicSource', 'rambler.ru', 'query', 'rambler']);
+_sbjs.push(['_addOrganicSource', 'tut.by', 'query', 'tut.by']);
 
 (function sourcebuster_js() {
 
@@ -124,47 +135,45 @@ function destroy_cookie(name) {
       __sbjs_term;
 
 
-  // Set user params if any
-  if (typeof _sbjs !== 'undefined' && _sbjs.length > 0) {
-    for (var i = 0; i < _sbjs.length; i++) {
+  // Set user params
+  for (var i = 0; i < _sbjs.length; i++) {
 
-      if (_sbjs[i][0] === '_setBaseHost') {
-        var SBJS_BASEHOST = _sbjs[i][1];
-        var SBJS_IS_TRUE_BASEHOST;
-        if (_sbjs[i].length > 2) {
-          SBJS_IS_TRUE_BASEHOST = _sbjs[i][2];
-        } else {
-          SBJS_IS_TRUE_BASEHOST = true;
-        }
+    if (_sbjs[i][0] === '_setBaseHost') {
+      var SBJS_BASEHOST = _sbjs[i][1];
+      var SBJS_IS_TRUE_BASEHOST;
+      if (_sbjs[i].length > 2) {
+        SBJS_IS_TRUE_BASEHOST = _sbjs[i][2];
+      } else {
+        SBJS_IS_TRUE_BASEHOST = true;
       }
-
-      if (_sbjs[i][0] === '_setSessionLength') {
-        var SBJS_SESSION_LENGTH = parseInt(_sbjs[i][1]);
-      }
-
-      if (_sbjs[i][0] === '_setUserIP') {
-        var SBJS_USER_IP = _sbjs[i][1];
-      }
-
-      if (_sbjs[i][0] === '_addOrganicSource') {
-        var SBJS_CUSTOM_SOURCES_ORGANIC = SBJS_CUSTOM_SOURCES_ORGANIC || [];
-        SBJS_CUSTOM_SOURCES_ORGANIC.push(_sbjs[i]);
-      }
-
-      if (_sbjs[i][0] === '_addReferralSource') {
-        var SBJS_CUSTOM_SOURCES_REFERRAL = SBJS_CUSTOM_SOURCES_REFERRAL || [];
-        SBJS_CUSTOM_SOURCES_REFERRAL.push(_sbjs[i]);
-      }
-
-      if (_sbjs[i][0] === '_setCampaignParam') {
-        var SBJS_CAMPAIGN_PARAM = _sbjs[i][1];
-      }
-
-      if (_sbjs[i][0] === '_setTimeZoneOffset') {
-        var SBJS_TIMEZONE_OFFSET = parseInt(_sbjs[i][1]);
-      }
-
     }
+
+    if (_sbjs[i][0] === '_setSessionLength') {
+      var SBJS_SESSION_LENGTH = parseInt(_sbjs[i][1]);
+    }
+
+    if (_sbjs[i][0] === '_setUserIP') {
+      var SBJS_USER_IP = _sbjs[i][1];
+    }
+
+    if (_sbjs[i][0] === '_addOrganicSource') {
+      var SBJS_CUSTOM_SOURCES_ORGANIC = SBJS_CUSTOM_SOURCES_ORGANIC || [];
+      SBJS_CUSTOM_SOURCES_ORGANIC.push(_sbjs[i]);
+    }
+
+    if (_sbjs[i][0] === '_addReferralSource') {
+      var SBJS_CUSTOM_SOURCES_REFERRAL = SBJS_CUSTOM_SOURCES_REFERRAL || [];
+      SBJS_CUSTOM_SOURCES_REFERRAL.push(_sbjs[i]);
+    }
+
+    if (_sbjs[i][0] === '_setCampaignParam') {
+      var SBJS_CAMPAIGN_PARAM = _sbjs[i][1];
+    }
+
+    if (_sbjs[i][0] === '_setTimeZoneOffset') {
+      var SBJS_TIMEZONE_OFFSET = parseInt(_sbjs[i][1]);
+    }
+
   }
 
   // A few more helpers
@@ -226,7 +235,6 @@ function destroy_cookie(name) {
   function escape_regexp(string) {
     return string.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
   }
-
 
 
   // Let's get this party started
