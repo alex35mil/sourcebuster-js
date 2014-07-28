@@ -41,9 +41,9 @@ function decode_data(s) {
                                 .replace(/\%27/g, "'")
                                 .replace(/\%28/g, "(")
                                 .replace(/\%29/g, ")");
-  } catch(err) {
+  } catch(err1) {
     // try unescape for backward compatibility
-    try { return unescape(s); } catch(err) { return ""; }
+    try { return unescape(s); } catch(err2) { return ""; }
   }
 }
 
@@ -72,8 +72,8 @@ function get_cookie(name) {
 
   for (var i = 0; i < ca.length; i++) {
     var c = ca[i];
-    while (c.charAt(0) === ' ') c = c.substring(1, c.length);
-    if (c.indexOf(nameEQ) === 0) return decode_data(c.substring(nameEQ.length, c.length));
+    while (c.charAt(0) === ' ') { c = c.substring(1, c.length); }
+    if (c.indexOf(nameEQ) === 0) { return decode_data(c.substring(nameEQ.length, c.length)); }
   }
   return null;
 }
@@ -198,11 +198,11 @@ function destroy_cookie(name) {
         uri = {},
         i = 14;
 
-    while (i--) uri[o.key[i]] = m[i] || '';
+    while (i--) { uri[o.key[i]] = m[i] || ''; }
 
     uri[o.q.name] = {};
     uri[o.key[12]].replace(o.q.parser, function ($0, $1, $2) {
-      if ($1) uri[o.q.name][$1] = $2;
+      if ($1) { uri[o.q.name][$1] = $2; }
     });
 
     return uri;
@@ -426,7 +426,7 @@ function destroy_cookie(name) {
 
   function set_leading_zero_to_int(num, size) {
     var s = num + '';
-    while (s.length < size) s = '0' + s;
+    while (s.length < size) { s = '0' + s; }
     return s;
   }
 
@@ -434,7 +434,7 @@ function destroy_cookie(name) {
     var utc_offset = date.getTimezoneOffset() / 60,
         now_hours = date.getHours(),
         custom_offset;
-    if (typeof SBJS_TIMEZONE_OFFSET !== 'undefined' && typeof SBJS_TIMEZONE_OFFSET === 'number' && SBJS_TIMEZONE_OFFSET % 1 == 0) {
+    if (typeof SBJS_TIMEZONE_OFFSET !== 'undefined' && typeof SBJS_TIMEZONE_OFFSET === 'number' && SBJS_TIMEZONE_OFFSET % 1 === 0) {
       custom_offset = SBJS_TIMEZONE_OFFSET;
     } else {
       custom_offset = 0;
