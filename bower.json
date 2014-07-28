@@ -1,13 +1,15 @@
 {
-  "name": "sourcebuster",
+  "name": "sourcebuster-js",
   "version": "0.0.4",
   "description": "Sourcebuster tracks sources of your site's visitors (utm / organic / referral / typein).",
   "homepage": "https://github.com/alexfedoseev/sourcebuster-js",
-  "author": {
-    "name": "Alex Fedoseev",
-    "email": "alex.fedoseev@gmail.com",
-    "url": "http://www.alexfedoseev.com"
-  },
+  "authors": [
+    {
+      "name": "Alex Fedoseev",
+      "email": "alex.fedoseev@gmail.com",
+      "homepage": "http://www.alexfedoseev.com"
+    }
+  ],
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -17,11 +19,17 @@
     "url": "https://github.com/alexfedoseev/sourcebuster-js/issues"
   },
   "main": "js/sourcebuster.min.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "devDependencies": {
-    "grunt": "^0.4.5",
-    "grunt-contrib-uglify": "^0.5.1"
-  }
+  "ignore": [
+    ".*",
+    "**/.*",
+    "package.json",
+    "Gruntfile.js",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "index.html",
+    "css"
+  ],
+  "dependencies": {}
 }

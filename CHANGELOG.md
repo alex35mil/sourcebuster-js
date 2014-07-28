@@ -3,7 +3,7 @@
 Changes:
 
   - switch from Closure Compiler to UglifyJS minification library
-  - switch from deprecated `escape()`/`unescape()` methods to custom `encode_data()`/`decode_data()` functions (which uses `encodeURIComponent()`/`decodeURIComponent()` with some additions) to set/get cookies (please pay attention to this if you parse `sbjs` cookies by yourself)
+  - switch from deprecated `escape()`/`unescape()` methods to custom `encode_data()`/`decode_data()` functions (which uses `encodeURIComponent()`/`decodeURIComponent()` with some additions) to set/get cookies. **Please pay attention to this if you parse `sbjs` cookies by yourself.**
 
 ## 0.0.3
 
