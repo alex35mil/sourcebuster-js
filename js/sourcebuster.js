@@ -130,10 +130,11 @@ function destroy_cookie(name) {
 
       if (_sbjs[i][0] === '_setBaseHost') {
         var SBJS_BASEHOST = _sbjs[i][1];
+        var SBJS_IS_TRUE_BASEHOST;
         if (_sbjs[i].length > 2) {
-          var SBJS_IS_TRUE_BASEHOST = _sbjs[i][2];
+          SBJS_IS_TRUE_BASEHOST = _sbjs[i][2];
         } else {
-          var SBJS_IS_TRUE_BASEHOST = true;
+          SBJS_IS_TRUE_BASEHOST = true;
         }
       }
 
@@ -516,11 +517,12 @@ var get_sbjs = function() {
   }
 
   for (var i1 = 0; i1 < cookies_names_src.length; i1++) {
+    var cookie_array;
     cookies[unsbjs(cookies_names_src[i1])] = {};
     if (get_cookie(cookies_names_src[i1])) {
-      var cookie_array = get_cookie(cookies_names_src[i1]).split('|');
+      cookie_array = get_cookie(cookies_names_src[i1]).split('|');
     } else {
-      var cookie_array = [];
+      cookie_array = [];
     }
     for (var i2 = 0; i2 < cookie_array.length; i2++) {
       var tmp_array = cookie_array[i2].split('='),
