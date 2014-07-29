@@ -38,10 +38,26 @@ Fits for those who:
 * consider that Google and Yandex is the only organic traffic sources out there (everything else is insignificant or referral)
 
 **What's in the box**  
-* By default organic traffic is only visits from SERP of Google and Yandex. I will add more organic sources in default setup in the future (after some test on projects with traffic).
+* By default organic traffic is the visits from SERP of Google and Yandex + from number of sources listed below.
 * User’s session duration: 30 minutes.
 * Using default setup on projects with subdomains can cause unexpected results. See “Advanced setup” section for detailed explanation how to set it up on projects with subdomains.
 * Script doesn’t store user ip by default.
+
+```
+Source         ->  Alias
+-------------------------
+google.all     ->  google
+yandex.all     ->  yandex
+bing.com       ->  bing
+yahoo.com      ->  yahoo
+about.com      ->  about
+aol.com        ->  aol
+ask.com        ->  ask
+globososo.com  ->  globo
+go.mail.ru     ->  go.mail.ru
+rambler.ru     ->  rambler
+tut.by         ->  tut.by
+```
 
 ### Advanced setup
 
@@ -155,6 +171,8 @@ There are already a number of predefined organic sources in the core:
 ```
 Source         ->  Alias
 -------------------------
+google.all     ->  google
+yandex.all     ->  yandex
 bing.com       ->  bing
 yahoo.com      ->  yahoo
 about.com      ->  about
