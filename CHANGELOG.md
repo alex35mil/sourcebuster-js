@@ -1,3 +1,10 @@
+## 0.0.5
+
+Features:
+
+  - add `_setTypeinAttributes` user setting to set custom `source` and `medium` for `typein` traffic
+  - set value of `content` = `referer_path` in cookies for `referral` traffic
+
 ## 0.0.4
 
 Features:

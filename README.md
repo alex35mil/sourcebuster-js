@@ -73,13 +73,14 @@ tut.by         ->  tut.by
   _sbjs.push(['_addReferralSource', 'facebook.com', 'social']);
   _sbjs.push(['_addReferralSource', 't.co', 'social', 'twitter.com']);
   _sbjs.push(['_addReferralSource', 'plus.url.google.com', 'social', 'plus.google.com']);
+  _sbjs.push(['_setTypeinAttributes', '(direct)', '(none)']);
 </script>
 <script src="/path/to/sourcebuster.min.js" id="sbjs"></script>
 ```
 
 Put it in the `<head>` tag: push your custom settings into the core using `_sbjs.push` and load sourcebuster script right after it.
 
-There are 7 types of user settings:  
+There are 8 types of user settings:
 * _setSessionLength
 * _setBaseHost
 * _setTimeZoneOffset
@@ -87,6 +88,7 @@ There are 7 types of user settings:
 * _addReferralSource
 * _setUserIP
 * _setCampaignParam
+* _setTypeinAttributes
 
 #### _setSessionLength
 
@@ -256,6 +258,16 @@ You'll get the following:
 * If there is original utm-param in request (`utm_source`, `utm_medium`, `utm_campaign`), it will override `gclid` param and `_setCampaignParam` param value.
 * If there is only custom campaign param (`_setCampaignParam`) in request, Sourcebuster will consider it as `utm` traffic. 
 
+#### _setTypeinAttributes
+
+```javascript
+_sbjs.push(['_setTypeinAttributes', '(direct)', '(none)']);
+```
+
+Sets custom `source` and `medium` for `typein` traffic.
+By default the value of `source` and `medium` for `typein` traffic is `typein`.
+You can override this via `_setTypeinAttributes` (to sync with Google's values from `_utmz`).
+
 ## Usage
 ### Cookies
 When the script is setted up and pushed to production, visitors will get the following cookies:  
@@ -303,8 +315,8 @@ typ=utm|src=yandex|mdm=cpc|cmp=my_adv_campaign|cnt=banner_1|trm=buy_my_stuff
 # source: google's SERP
 typ=organic|src=google|mdm=organic|cmp=(none)|cnt=(none)|trm=(none)
 
-# source: referral from site.com
-typ=referral|src=site.com|mdm=referral|cmp=(none)|cnt=(none)|trm=(none)
+# source: referral from site.com/referer-path
+typ=referral|src=site.com|mdm=referral|cmp=(none)|cnt=/referer-path|trm=(none)
 
 # source: facebook with _addReferralSource setting
 typ=referral|src=facebook.com|mdm=social|cmp=(none)|cnt=(none)|trm=(none)

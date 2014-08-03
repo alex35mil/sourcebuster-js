@@ -1,6 +1,6 @@
 // It's Sourcebuster [JS Edition], baby! (poolparty)
 // Author: Alex Fedoseev (www.alexfedoseev.com)
-// Version: 0.0.4
+// Version: 0.0.5
 
 // Github: https://github.com/alexfedoseev/sourcebuster-js
 // Blog post (rus): http://www.alexfedoseev.com/post/40/sourcebuster-js
@@ -166,6 +166,11 @@ _sbjs.push(['_addOrganicSource', 'tut.by', 'query', 'tut.by']);
       SBJS_CUSTOM_SOURCES_REFERRAL.push(_sbjs[i]);
     }
 
+    if (_sbjs[i][0] === '_setTypeinAttributes') {
+      var SBJS_TYPEIN_CUSTOM_SOURCE = _sbjs[i][1] || SBJS_TYPEIN;
+      var SBJS_TYPEIN_CUSTOM_MEDIUM = _sbjs[i][2] || SBJS_TYPEIN;
+    }
+
     if (_sbjs[i][0] === '_setCampaignParam') {
       var SBJS_CAMPAIGN_PARAM = _sbjs[i][1];
     }
@@ -322,14 +327,14 @@ _sbjs.push(['_addOrganicSource', 'tut.by', 'query', 'tut.by']);
         __sbjs_source = __sbjs_source || clean_host(document.referrer);
         __sbjs_medium = __sbjs_medium || SBJS_REFERER_REFERRAL;
         __sbjs_campaign = SBJS_NONE;
-        __sbjs_content = SBJS_NONE;
+        __sbjs_content = parseUri(document.referrer).path;
         __sbjs_term = SBJS_NONE;
         break;
 
       case SBJS_TYPEIN:
         __sbjs_type = SBJS_TYPEIN;
-        __sbjs_source = SBJS_TYPEIN;
-        __sbjs_medium = SBJS_TYPEIN;
+        __sbjs_source = SBJS_TYPEIN_CUSTOM_SOURCE || SBJS_TYPEIN;
+        __sbjs_medium = SBJS_TYPEIN_CUSTOM_MEDIUM || SBJS_TYPEIN;
         __sbjs_campaign = SBJS_NONE;
         __sbjs_content = SBJS_NONE;
         __sbjs_term = SBJS_NONE;
