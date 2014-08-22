@@ -1,6 +1,6 @@
 {
   "name": "sourcebuster",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Sourcebuster tracks sources of your site's visitors (utm / organic / referral / typein).",
   "homepage": "https://github.com/alexfedoseev/sourcebuster-js",
   "author": {

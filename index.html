@@ -21,6 +21,7 @@
       _sbjs.push(['_addReferralSource', 't.co', 'social', 'twitter.com']);
       _sbjs.push(['_addReferralSource', 'plus.url.google.com', 'social', 'plus.google.com']);
       _sbjs.push(['_setTypeinAttributes', '(direct)', '(none)']);
+      _sbjs.push(['_setPromocode', 10000, 999999]);
     </script>
     <script src="js/sourcebuster.min.js" id="sbjs"></script>
 
@@ -132,6 +133,10 @@
                 <td class='sb-table-param-add-type'>Current referer:</td>
                 <td class='sb-table-param-add-value' id='sb_referer_ref'></td>
               </tr>
+              <tr>
+                <td class='sb-table-param-add-type'>Promocode:</td>
+                <td class='sb-table-param-add-value' id='sb_promo_code'></td>
+              </tr>
             </table>
           </td>
         </tr>
@@ -167,6 +172,8 @@
           document.getElementById('sb_first_add_fd').innerHTML = get_sbjs.first_add.fd;
           document.getElementById('sb_first_add_ep').innerHTML = get_sbjs.first_add.ep;
           document.getElementById('sb_referer_ref').innerHTML = get_sbjs.referer.ref;
+
+          document.getElementById('sb_promo_code').innerHTML = get_sbjs.promo.code;
         }
 
         if (typeof get_sbjs !== 'undefined') {

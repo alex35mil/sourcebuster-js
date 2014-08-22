@@ -1,6 +1,6 @@
 // It's Sourcebuster [JS Edition], baby! (poolparty)
 // Author: Alex Fedoseev (www.alexfedoseev.com)
-// Version: 0.0.5
+// Version: 0.0.6
 
 // Github: https://github.com/alexfedoseev/sourcebuster-js
 // Blog post (rus): http://www.alexfedoseev.com/post/40/sourcebuster-js
@@ -15,6 +15,7 @@ var SBJS_CURRENT_COOKIE = 'sbjs_current',
     SBJS_SESSION_COOKIE = 'sbjs_session',
     SBJS_REFERER_COOKIE = 'sbjs_referer',
     SBJS_UDATA_COOKIE = 'sbjs_udata',
+    SBJS_PROMOCODE_COOKIE = 'sbjs_promo',
     SBJS_COOKIE_EXPIRES = 1000000;
 
 // Encode/Decode helpers
@@ -123,6 +124,8 @@ _sbjs.push(['_addOrganicSource', 'tut.by', 'query', 'tut.by']);
   var SBJS_USER_IP_ALIAS = 'uip',
       SBJS_USER_AGENT_ALIAS = 'uag';
 
+  var SBJS_PROMOCODE_ALIAS = 'code';
+
   var SBJS_NONE = '(none)',
       SBJS_OOPS = '(Houston, we have a problem)';
 
@@ -177,6 +180,12 @@ _sbjs.push(['_addOrganicSource', 'tut.by', 'query', 'tut.by']);
 
     if (_sbjs[i][0] === '_setTimeZoneOffset') {
       var SBJS_TIMEZONE_OFFSET = parseInt(_sbjs[i][1]);
+    }
+
+    if (_sbjs[i][0] === '_setPromocode') {
+      var SBJS_SET_PROMO = true,
+          SBJS_PROMOCODE_MIN = parseInt(_sbjs[i][1]) || 100000,
+          SBJS_PROMOCODE_MAX = parseInt(_sbjs[i][2]) || 999999;
     }
 
   }
@@ -466,6 +475,11 @@ _sbjs.push(['_addOrganicSource', 'tut.by', 'query', 'tut.by']);
     return date_string;
   }
 
+  function random_int(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  // Pre-pack data
   function combine_sbjs_main_data_string(data) {
     return  SBJS_TYPE_ALIAS + '=' + data.sbjs_type + '|' + 
             SBJS_SOURCE_ALIAS + '=' + data.sbjs_source + '|' + 
@@ -489,6 +503,10 @@ _sbjs.push(['_addOrganicSource', 'tut.by', 'query', 'tut.by']);
     return (SBJS_FIRST_DATE_ALIAS + '=' + set_date(current_date) + '|' + SBJS_ENTRANCE_POINT_ALIAS + '=' + location.href);
   }
 
+  function combine_sbjs_promocode_string() {
+    return (SBJS_PROMOCODE_ALIAS + '=' + set_leading_zero_to_int(random_int(SBJS_PROMOCODE_MIN, SBJS_PROMOCODE_MAX), SBJS_PROMOCODE_MAX.toString().length));
+  }
+
   function set_sbjs_data() {
 
     var session_length, basehost, is_true_basehost;
@@ -506,6 +524,10 @@ _sbjs.push(['_addOrganicSource', 'tut.by', 'query', 'tut.by']);
     set_cookie(SBJS_SESSION_COOKIE, '1', session_length, basehost, !is_true_basehost);
     set_cookie(SBJS_UDATA_COOKIE, combine_sbjs_user_data_string(), SBJS_COOKIE_EXPIRES, basehost, !is_true_basehost);
 
+    if (SBJS_SET_PROMO && !get_cookie(SBJS_PROMOCODE_COOKIE)) {
+      set_cookie(SBJS_PROMOCODE_COOKIE, combine_sbjs_promocode_string(), SBJS_COOKIE_EXPIRES, basehost, !is_true_basehost);
+    }
+
   }
 
   // Boom!
@@ -522,7 +544,8 @@ var get_sbjs = function() {
         SBJS_FIRST_COOKIE,
         SBJS_FIRST_ADD_COOKIE,
         SBJS_REFERER_COOKIE,
-        SBJS_UDATA_COOKIE
+        SBJS_UDATA_COOKIE,
+        SBJS_PROMOCODE_COOKIE
       ];
 
   function unsbjs(string) {

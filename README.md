@@ -35,7 +35,7 @@ Place in the `<head>` tag:
 
 Fits for those who:
 * doesn’t have subdomains
-* consider that Google and Yandex is the only organic traffic sources out there (everything else is insignificant or referral)
+* happy with default settings, which are described below
 
 **What's in the box**  
 * By default organic traffic is the visits from SERP of Google and Yandex + from number of sources listed below.
@@ -74,6 +74,7 @@ tut.by         ->  tut.by
   _sbjs.push(['_addReferralSource', 't.co', 'social', 'twitter.com']);
   _sbjs.push(['_addReferralSource', 'plus.url.google.com', 'social', 'plus.google.com']);
   _sbjs.push(['_setTypeinAttributes', '(direct)', '(none)']);
+  _sbjs.push(['_setPromocode', 10000, 999999]);
 </script>
 <script src="/path/to/sourcebuster.min.js" id="sbjs"></script>
 ```
@@ -89,6 +90,7 @@ There are 8 types of user settings:
 * _setUserIP
 * _setCampaignParam
 * _setTypeinAttributes
+* _setPromocode
 
 #### _setSessionLength
 
@@ -268,6 +270,17 @@ Sets custom `source` and `medium` for `typein` traffic.
 By default the value of `source` and `medium` for `typein` traffic is `typein`.
 You can override this via `_setTypeinAttributes` (to sync with Google's values from `_utmz`).
 
+#### _setPromocode
+
+```javascript
+_sbjs.push(['_setPromocode', 10000, 999999]);
+```
+
+Sets random promocode for visitor.
+If you don't want to do promocode-stuff on your back, Sourcebuster can generate them or you.
+There is no check for uniqueness, of course. But you can rely on probability and set range of promocode values via 2nd and 3rd params.
+They are optional, by the way. If they are not set, range will be between 100 000 and 999 999.
+
 ## Usage
 ### Cookies
 When the script is setted up and pushed to production, visitors will get the following cookies:  
@@ -277,6 +290,7 @@ When the script is setted up and pushed to production, visitors will get the fol
 * sbjs_session
 * sbjs_referer
 * sbjs_udata
+* sbjs_promo
 
 #### sbjs_current
 
@@ -381,6 +395,19 @@ Current ip-address.
 * ***uag***  
 Current user-agent (browser).
 
+#### sbjs_promo
+
+*Data*
+Visitor's promocode. Cookie set only if setting `_setPromocode` is present.
+
+*Format*
+`code=002354`
+
+*Params*
+
+* ***code***
+Promocode.
+
 
 ### Getting the data
 
@@ -400,6 +427,9 @@ get_sbjs.first_add.ep
 
 // user-agent
 get_sbjs.udata.uag
+
+// promocode
+get_sbjs.promo.code
 
 // and so on
 ```

@@ -1,3 +1,9 @@
+## 0.0.6
+
+Features:
+
+  - add `_setPromocode` user setting to set promocode for visitor;
+
 ## 0.0.5
 
 Features:
