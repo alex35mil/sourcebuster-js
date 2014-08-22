@@ -405,7 +405,7 @@ Visitor's promocode. Cookie set only if setting `_setPromocode` is present.
 
 *Params*  
 
-* ***code*** 
+* ***code***  
 Promocode.
 
 
