@@ -397,15 +397,15 @@ Current user-agent (browser).
 
 #### sbjs_promo
 
-*Data*
+*Data*  
 Visitor's promocode. Cookie set only if setting `_setPromocode` is present.
 
-*Format*
+*Format*  
 `code=002354`
 
-*Params*
+*Params*  
 
-* ***code***  
+* ***code***
 Promocode.
 
 
