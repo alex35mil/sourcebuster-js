@@ -114,24 +114,38 @@
           <td colspan='2'>
             <table>
               <tr>
+                <td class='sb-table-param-add-type'>First visit date:</td>
+                <td class='sb-table-param-add-value' id='sb_first_add_fd'></td>
+              </tr>
+              <tr>
+                <td class='sb-table-param-add-type'>First entrance point:</td>
+                <td class='sb-table-param-add-value' id='sb_first_add_ep'></td>
+              </tr>
+              <tr>
+                <td class='sb-table-param-add-type'>First referer:</td>
+                <td class='sb-table-param-add-value' id='sb_referer_first_ref'></td>
+              </tr>
+
+              <tr>
+                <td class='sb-table-param-add-type'>Current visit date:</td>
+                <td class='sb-table-param-add-value' id='sb_current_add_fd'></td>
+              </tr>
+              <tr>
+                <td class='sb-table-param-add-type'>Current entrance point:</td>
+                <td class='sb-table-param-add-value' id='sb_current_add_ep'></td>
+              </tr>
+              <tr>
+                <td class='sb-table-param-add-type'>Current referer:</td>
+                <td class='sb-table-param-add-value' id='sb_referer_ref'></td>
+              </tr>
+
+              <tr>
                 <td class='sb-table-param-add-type'>IP:</td>
                 <td class='sb-table-param-add-value' id='sb_udata_uip'></td>
               </tr>
               <tr>
                 <td class='sb-table-param-add-type'>User agent:</td>
                 <td class='sb-table-param-add-value' id='sb_udata_uag'></td>
-              </tr>
-              <tr>
-                <td class='sb-table-param-add-type'>First visit date:</td>
-                <td class='sb-table-param-add-value' id='sb_first_add_fd'></td>
-              </tr>
-              <tr>
-                <td class='sb-table-param-add-type'>Entrance point:</td>
-                <td class='sb-table-param-add-value' id='sb_first_add_ep'></td>
-              </tr>
-              <tr>
-                <td class='sb-table-param-add-type'>Current referer:</td>
-                <td class='sb-table-param-add-value' id='sb_referer_ref'></td>
               </tr>
               <tr>
                 <td class='sb-table-param-add-type'>Promocode:</td>
@@ -167,11 +181,16 @@
           document.getElementById('sb_current_cnt').innerHTML = get_sbjs.current.cnt;
           document.getElementById('sb_current_trm').innerHTML = get_sbjs.current.trm;
 
-          document.getElementById('sb_udata_uip').innerHTML = get_sbjs.udata.uip;
-          document.getElementById('sb_udata_uag').innerHTML = get_sbjs.udata.uag;
           document.getElementById('sb_first_add_fd').innerHTML = get_sbjs.first_add.fd;
           document.getElementById('sb_first_add_ep').innerHTML = get_sbjs.first_add.ep;
-          document.getElementById('sb_referer_ref').innerHTML = get_sbjs.referer.ref;
+          document.getElementById('sb_referer_first_ref').innerHTML = get_sbjs.first_add.rf;
+
+          document.getElementById('sb_current_add_fd').innerHTML = get_sbjs.current_add.fd;
+          document.getElementById('sb_current_add_ep').innerHTML = get_sbjs.current_add.ep;
+          document.getElementById('sb_referer_ref').innerHTML = get_sbjs.current_add.rf;
+
+          document.getElementById('sb_udata_uip').innerHTML = get_sbjs.udata.uip;
+          document.getElementById('sb_udata_uag').innerHTML = get_sbjs.udata.uag;
 
           document.getElementById('sb_promo_code').innerHTML = get_sbjs.promo.code;
         }

@@ -81,7 +81,7 @@ tut.by         ->  tut.by
 
 Put it in the `<head>` tag: push your custom settings into the core using `_sbjs.push` and load sourcebuster script right after it.
 
-There are 8 types of user settings:
+There are 9 types of user settings:
 * _setSessionLength
 * _setBaseHost
 * _setTimeZoneOffset
@@ -285,10 +285,10 @@ They are optional, by the way. If they are not set, range will be between 100 00
 ### Cookies
 When the script is setted up and pushed to production, visitors will get the following cookies:  
 * sbjs_current
+* sbjs_current_add
 * sbjs_first
 * sbjs_first_add
 * sbjs_session
-* sbjs_referer
 * sbjs_udata
 * sbjs_promo
 
@@ -347,37 +347,31 @@ Just like `sbjs_current`, but stores params of the very first visit. Placed once
 #### sbjs_first_add
 
 *Data*  
-Additional info of the first visit. Date and time + entrance point.
+Additional info of the first visit. Date & time, entrance point and referer.
 
 *Format*  
-`fd=2014-06-11 17:28:26|ep=http://statica.alexfedoseev.com/sourcebuster-js/`
+`fd=2014-06-11 17:28:26|ep=http://statica.alexfedoseev.com/sourcebuster-js/|rf=https://www.google.com`
 
 *Params*  
 
 * ***fd***  
 Date and time ofthe first visit. Format: `yyyy-mm-dd hh:mm:ss`. In UTC by default. Time zone can be customized via `_setTimeZoneOffset`.
 
-
 * ***ep***  
 Entrance point.
+
+* ***rf***  
+Referer URL.
+
+#### sbjs_current_add
+
+*Data*  
+Just like `sbjs_first_add`, but stores the data of the visit, when the current source was written.
 
 #### sbjs_session
 
 *Data*  
 Cookie-flag, that user have opened session. Life duration: 30 minutes or your setting using `_setSessionLength` (from the moment of the latest activity).
-
-#### sbjs_referer
-
-*Data*  
-Referer, which was stored when the current source was written (and previous source was overwritten).
-
-*Format*  
-`ref=https://twitter.com`
-
-*Params*  
-
-* ***ref***  
-Referer URL.
 
 #### sbjs_udata
 

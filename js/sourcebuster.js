@@ -1,6 +1,6 @@
 // It's Sourcebuster [JS Edition], baby! (poolparty)
 // Author: Alex Fedoseev (www.alexfedoseev.com)
-// Version: 0.0.6
+// Version: 0.0.7
 
 // Github: https://github.com/alexfedoseev/sourcebuster-js
 // Blog post (rus): http://www.alexfedoseev.com/post/40/sourcebuster-js
@@ -10,10 +10,10 @@
 
 // SBJS cookies
 var SBJS_CURRENT_COOKIE = 'sbjs_current',
+    SBJS_CURRENT_ADD_COOKIE = 'sbjs_current_add',
     SBJS_FIRST_COOKIE = 'sbjs_first',
     SBJS_FIRST_ADD_COOKIE = 'sbjs_first_add',
     SBJS_SESSION_COOKIE = 'sbjs_session',
-    SBJS_REFERER_COOKIE = 'sbjs_referer',
     SBJS_UDATA_COOKIE = 'sbjs_udata',
     SBJS_PROMOCODE_COOKIE = 'sbjs_promo',
     SBJS_COOKIE_EXPIRES = 1000000;
@@ -117,9 +117,8 @@ _sbjs.push(['_addOrganicSource', 'tut.by', 'query', 'tut.by']);
       SBJS_TERM_ALIAS = 'trm';
 
   var SBJS_FIRST_DATE_ALIAS = 'fd',
-      SBJS_ENTRANCE_POINT_ALIAS = 'ep';
-
-  var SBJS_REFERRAL_URL_ALIAS = 'ref';
+      SBJS_ENTRANCE_POINT_ALIAS = 'ep',
+      SBJS_REFERRAL_URL_ALIAS = 'rf';
 
   var SBJS_USER_IP_ALIAS = 'uip',
       SBJS_USER_AGENT_ALIAS = 'uag';
@@ -252,13 +251,14 @@ _sbjs.push(['_addOrganicSource', 'tut.by', 'query', 'tut.by']);
 
 
   // Let's get this party started
-  function set_referer_cookie() {
-    var referer = document.referrer || SBJS_NONE;
-    var basehost, is_true_basehost;
-    typeof SBJS_BASEHOST !== 'undefined' ? basehost = SBJS_BASEHOST : basehost = undefined;
-    typeof SBJS_IS_TRUE_BASEHOST !== 'undefined' ? is_true_basehost = SBJS_IS_TRUE_BASEHOST : is_true_basehost = true;
+  function set_first_and_current_add_cookie() {
+    var basehost = typeof SBJS_BASEHOST !== 'undefined' ? SBJS_BASEHOST : undefined;
+    var is_true_basehost = typeof SBJS_IS_TRUE_BASEHOST !== 'undefined' ? SBJS_IS_TRUE_BASEHOST : true;
 
-    set_cookie(SBJS_REFERER_COOKIE, SBJS_REFERRAL_URL_ALIAS + '=' + referer, SBJS_COOKIE_EXPIRES, basehost, !is_true_basehost);
+    set_cookie(SBJS_CURRENT_ADD_COOKIE, combine_sbjs_source_add_data_string(), SBJS_COOKIE_EXPIRES, basehost, !is_true_basehost);
+    if (!get_cookie(SBJS_FIRST_ADD_COOKIE)) {
+      set_cookie(SBJS_FIRST_ADD_COOKIE, combine_sbjs_source_add_data_string(), SBJS_COOKIE_EXPIRES, basehost, !is_true_basehost);
+    }
   }
 
   function main_cookie_data() {
@@ -270,16 +270,16 @@ _sbjs.push(['_addOrganicSource', 'tut.by', 'query', 'tut.by']);
         typeof get_param.utm_term !== 'undefined' ||
         typeof get_param.gclid !== 'undefined' ||
         typeof get_param[SBJS_CAMPAIGN_PARAM] !== 'undefined') {
-      set_referer_cookie();
+      set_first_and_current_add_cookie();
       data = get_data(SBJS_UTM);
     } else if (check_referer(SBJS_ORGANIC)) {
-      set_referer_cookie();
+      set_first_and_current_add_cookie();
       data = get_data(SBJS_ORGANIC);
     } else if (!get_cookie(SBJS_SESSION_COOKIE) && check_referer(SBJS_REFERRAL)) {
-      set_referer_cookie();
+      set_first_and_current_add_cookie();
       data = get_data(SBJS_REFERRAL);
     } else if (!get_cookie(SBJS_FIRST_COOKIE) && !get_cookie(SBJS_CURRENT_COOKIE)) {
-      set_referer_cookie();
+      set_first_and_current_add_cookie();
       data = get_data(SBJS_TYPEIN);
     } else {
       return get_cookie(SBJS_CURRENT_COOKIE);
@@ -498,9 +498,10 @@ _sbjs.push(['_addOrganicSource', 'tut.by', 'query', 'tut.by']);
     }
   }
 
-  function combine_sbjs_first_add_data_string() {
+  function combine_sbjs_source_add_data_string() {
     var current_date = new Date();
-    return (SBJS_FIRST_DATE_ALIAS + '=' + set_date(current_date) + '|' + SBJS_ENTRANCE_POINT_ALIAS + '=' + location.href);
+    var referer = document.referrer || SBJS_NONE;
+    return (SBJS_FIRST_DATE_ALIAS + '=' + set_date(current_date) + '|' + SBJS_ENTRANCE_POINT_ALIAS + '=' + location.href + '|' + SBJS_REFERRAL_URL_ALIAS + '=' + referer);
   }
 
   function combine_sbjs_promocode_string() {
@@ -509,15 +510,11 @@ _sbjs.push(['_addOrganicSource', 'tut.by', 'query', 'tut.by']);
 
   function set_sbjs_data() {
 
-    var session_length, basehost, is_true_basehost;
-    typeof SBJS_SESSION_LENGTH !== 'undefined' && SBJS_SESSION_LENGTH > 0 ? session_length = SBJS_SESSION_LENGTH : session_length = 30;
-    typeof SBJS_BASEHOST !== 'undefined' ? basehost = SBJS_BASEHOST : basehost = undefined;
-    typeof SBJS_IS_TRUE_BASEHOST !== 'undefined' ? is_true_basehost = SBJS_IS_TRUE_BASEHOST : is_true_basehost = true;
+    var session_length = typeof SBJS_SESSION_LENGTH !== 'undefined' && SBJS_SESSION_LENGTH > 0 ? SBJS_SESSION_LENGTH : 30;
+    var basehost = typeof SBJS_BASEHOST !== 'undefined' ? SBJS_BASEHOST : undefined;
+    var is_true_basehost = typeof SBJS_IS_TRUE_BASEHOST !== 'undefined' ? SBJS_IS_TRUE_BASEHOST : true;
 
     set_cookie(SBJS_CURRENT_COOKIE, main_cookie_data(), SBJS_COOKIE_EXPIRES, basehost, !is_true_basehost);
-    if (!get_cookie(SBJS_FIRST_COOKIE)) { 
-      set_cookie(SBJS_FIRST_ADD_COOKIE, combine_sbjs_first_add_data_string(), SBJS_COOKIE_EXPIRES, basehost, !is_true_basehost);
-    }
     if (!get_cookie(SBJS_FIRST_COOKIE)) {
       set_cookie(SBJS_FIRST_COOKIE, get_cookie(SBJS_CURRENT_COOKIE), SBJS_COOKIE_EXPIRES, basehost, !is_true_basehost);
     }
@@ -541,9 +538,9 @@ var get_sbjs = function() {
   var cookies = {},
       cookies_names_src = [
         SBJS_CURRENT_COOKIE,
+        SBJS_CURRENT_ADD_COOKIE,
         SBJS_FIRST_COOKIE,
         SBJS_FIRST_ADD_COOKIE,
-        SBJS_REFERER_COOKIE,
         SBJS_UDATA_COOKIE,
         SBJS_PROMOCODE_COOKIE
       ];
