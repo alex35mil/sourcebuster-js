@@ -513,8 +513,7 @@ _sbjs.push(['_addOrganicSource', 'tut.by', 'query', 'tut.by']);
     var session_length = typeof SBJS_SESSION_LENGTH !== 'undefined' && SBJS_SESSION_LENGTH > 0 ? SBJS_SESSION_LENGTH : 30;
     var basehost = typeof SBJS_BASEHOST !== 'undefined' ? SBJS_BASEHOST : undefined;
     var is_true_basehost = typeof SBJS_IS_TRUE_BASEHOST !== 'undefined' ? SBJS_IS_TRUE_BASEHOST : true;
-    var session_first_pageload = !get_cookie(SBJS_SESSION_COOKIE) ? '1' : '0'
-    
+    var session_first_pageload = !get_cookie(SBJS_SESSION_COOKIE) ? '0' : '1';
     
     set_cookie(SBJS_CURRENT_COOKIE, main_cookie_data(), SBJS_COOKIE_EXPIRES, basehost, !is_true_basehost);
     if (!get_cookie(SBJS_FIRST_COOKIE)) {
