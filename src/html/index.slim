@@ -1,0 +1,188 @@
+doctype html
+html
+  head
+    meta [charset="utf-8"]
+    title Sourcebuster JS &trade;
+
+    /[if lt IE 9]
+      script [src="http://html5shiv.googlecode.com/svn/trunk/html5.js"]
+
+    link    [rel="stylesheet" href="css/sourcebuster.min.css"]
+    script  [src="js/sourcebuster.min.js"]
+
+  body
+
+    section [id="wrapper"]
+      header
+        h1 Sourcebuster JS
+
+      section [id="src-links"]
+        a [href="http://www.alexfedoseev.com/post/40/sourcebuster-js" target="_blank"] About
+        | &nbsp;&nbsp;&middot;&nbsp;&nbsp;
+        a [href="https://github.com/alexfedoseev/sourcebuster-js" target="_blank"] GitHub
+        | &nbsp;&nbsp;&middot;&nbsp;&nbsp;
+        a [href="https://github.com/alexfedoseev/sourcebuster-js/archive/master.zip"] Download from GitHub
+
+      table
+        tr
+          td [width="350"]
+            h3 First visit
+          td [width="350"]
+            h3 Current visit
+
+        tr
+          td
+            table
+              tr
+                td [class="sb-table-param-type"] Type:
+                td [class="sb-table-param-value" id="sb_first_typ"]
+              tr
+                td [class="sb-table-param-type"] utm_source:
+                td [class="sb-table-param-value" id="sb_first_src"]
+              tr
+                td [class="sb-table-param-type"] utm_medium:
+                td [class="sb-table-param-value" id="sb_first_mdm"]
+              tr
+                td [class="sb-table-param-type"] utm_campaign:
+                td [class="sb-table-param-value" id="sb_first_cmp"]
+              tr
+                td [class="sb-table-param-type"] utm_content:
+                td [class="sb-table-param-value" id="sb_first_cnt"]
+              tr
+                td [class="sb-table-param-type"] utm_term:
+                td [class="sb-table-param-value" id="sb_first_trm"]
+          td
+            table
+              tr
+                td [class="sb-table-param-type"] Type:
+                td [class="sb-table-param-value" id="sb_current_typ"]
+              tr
+                td [class="sb-table-param-type"] utm_source:
+                td [class="sb-table-param-value" id="sb_current_src"]
+              tr
+                td [class="sb-table-param-type"] utm_medium:
+                td [class="sb-table-param-value" id="sb_current_mdm"]
+              tr
+                td [class="sb-table-param-type"] utm_campaign:
+                td [class="sb-table-param-value" id="sb_current_cmp"]
+              tr
+                td [class="sb-table-param-type"] utm_content:
+                td [class="sb-table-param-value" id="sb_current_cnt"]
+              tr
+                td [class="sb-table-param-type"] utm_term:
+                td [class="sb-table-param-value" id="sb_current_trm"]
+
+      table
+        tr
+          td [colspan="2"]
+            table
+              tr
+                td [class="sb-table-param-add-type"] First visit date:
+                td [class="sb-table-param-add-value" id="sb_first_add_fd"]
+              tr
+                td [class="sb-table-param-add-type"] First entrance point:
+                td [class="sb-table-param-add-value" id="sb_first_add_ep"]
+              tr
+                td [class="sb-table-param-add-type"] First referer:
+                td [class="sb-table-param-add-value" id="sb_referer_first_ref"]
+              tr
+                td [class="sb-table-param-add-type"] Current visit date:
+                td [class="sb-table-param-add-value" id="sb_current_add_fd"]
+              tr
+                td [class="sb-table-param-add-type"] Current entrance point:
+                td [class="sb-table-param-add-value" id="sb_current_add_ep"]
+              tr
+                td [class="sb-table-param-add-type"] Current referer:
+                td [class="sb-table-param-add-value" id="sb_referer_ref"]
+
+              tr
+                td [class="sb-table-param-add-type"] Pages seen:
+                td [class="sb-table-param-add-value" id="sb_session_pgs"]
+              tr
+                td [class="sb-table-param-add-type"] Current page:
+                td [class="sb-table-param-add-value" id="sb_session_cpg"]
+
+              tr
+                td [class="sb-table-param-add-type"] Visits:
+                td [class="sb-table-param-add-value" id="sb_udata_vst"]
+              tr
+                td [class="sb-table-param-add-type"] IP:
+                td [class="sb-table-param-add-value" id="sb_udata_uip"]
+              tr
+                td [class="sb-table-param-add-type"] User agent:
+                td [class="sb-table-param-add-value" id="sb_udata_uag"]
+              tr
+                td [class="sb-table-param-add-type"] Promocode:
+                td [class="sb-table-param-add-value" id="sb_promo_code"]
+
+      javascript:
+
+        sbjs.init({ callback: place_data });
+
+        function place_data(get_sbjs) {
+          document.getElementById('sb_first_typ').innerHTML = get_sbjs.first.typ;
+          document.getElementById('sb_first_src').innerHTML = get_sbjs.first.src;
+          document.getElementById('sb_first_mdm').innerHTML = get_sbjs.first.mdm;
+          document.getElementById('sb_first_cmp').innerHTML = get_sbjs.first.cmp;
+          document.getElementById('sb_first_cnt').innerHTML = get_sbjs.first.cnt;
+          document.getElementById('sb_first_trm').innerHTML = get_sbjs.first.trm;
+
+          document.getElementById('sb_current_typ').innerHTML = get_sbjs.current.typ;
+          document.getElementById('sb_current_src').innerHTML = get_sbjs.current.src;
+          document.getElementById('sb_current_mdm').innerHTML = get_sbjs.current.mdm;
+          document.getElementById('sb_current_cmp').innerHTML = get_sbjs.current.cmp;
+          document.getElementById('sb_current_cnt').innerHTML = get_sbjs.current.cnt;
+          document.getElementById('sb_current_trm').innerHTML = get_sbjs.current.trm;
+
+          document.getElementById('sb_first_add_fd').innerHTML = get_sbjs.first_add.fd;
+          document.getElementById('sb_first_add_ep').innerHTML = get_sbjs.first_add.ep;
+          document.getElementById('sb_referer_first_ref').innerHTML = get_sbjs.first_add.rf;
+
+          document.getElementById('sb_current_add_fd').innerHTML = get_sbjs.current_add.fd;
+          document.getElementById('sb_current_add_ep').innerHTML = get_sbjs.current_add.ep;
+          document.getElementById('sb_referer_ref').innerHTML = get_sbjs.current_add.rf;
+
+          document.getElementById('sb_session_pgs').innerHTML = get_sbjs.session.pgs;
+          document.getElementById('sb_session_cpg').innerHTML = get_sbjs.session.cpg;
+
+          document.getElementById('sb_udata_vst').innerHTML = get_sbjs.udata.vst;
+          document.getElementById('sb_udata_uip').innerHTML = get_sbjs.udata.uip;
+          document.getElementById('sb_udata_uag').innerHTML = get_sbjs.udata.uag;
+
+          document.getElementById('sb_promo_code').innerHTML = get_sbjs.promo.code;
+        }
+
+
+      section [id="info"]
+        h2 Test Links
+        h3 UTM
+        p
+          a [href="?utm_source=yandex&utm_medium=cpc&utm_campaign=y_test_sourcebuster_js&utm_term=sourcebuster_js_yandex_keyword или просто ключ яндекса"] ?utm_source=yandex&utm_medium=cpc&utm_campaign=y_test_sourcebuster_js...
+          br
+          a [href="?utm_source=google&utm_medium=cpc&utm_campaign=g_test_sourcebuster_js&utm_term=sourcebuster_js_google_keyword или просто ключ гугла"] ?utm_source=google&utm_medium=cpc&utm_campaign=g_test_sourcebuster_js...
+
+        h3 Organic
+        p
+          a [href="https://www.google.ru/search?q=statica+alexfedoseev+sourcebuster-js"] Google
+          | &nbsp;&nbsp;&middot;&nbsp;&nbsp;
+          a [href="http://yandex.ru/yandsearch?lr=213&text=statica+alexfedoseev+sourcebuster+js"] Yandex
+          | &nbsp;&nbsp;&middot;&nbsp;&nbsp;
+          a [href="http://search.aol.com/aol/search?enabled_terms=&s_it=comsearch&q=statica+alexfedoseev+sourcebuster+js"] AOL (predefined)
+          | &nbsp;&nbsp;&middot;&nbsp;&nbsp;
+          a [href="http://nova.rambler.ru/search?utm_source=nhp&query=statica+alexfedoseev+sourcebuster+js&btnG=%D0%9D%D0%B0%D0%B9%D1%82%D0%B8"] Rambler (custom)
+
+        h3 Referral
+        p
+          a [href="http://alexfedoseev.livejournal.com/86404.html"] livejournal.com
+          | &nbsp;&nbsp;&middot;&nbsp;&nbsp;
+          a [href="http://www.alexfedoseev.com/post/40/sourcebuster-js"] alexfedoseev.com
+
+        h3 Referral Custom
+        p
+          a [href="https://twitter.com/alexfedoseev/status/481686942820478976"] Twitter
+          | &nbsp;&nbsp;&middot;&nbsp;&nbsp;
+          a [href="https://plus.google.com/+%D0%9B%D1%91%D1%88%D0%B0%D0%A4%D0%B5%D0%B4%D0%BE%D1%81%D0%B5%D0%B5%D0%B2/posts/e1NqiXSquPo"] Google+
+
+
+    footer
+      p &nbsp;

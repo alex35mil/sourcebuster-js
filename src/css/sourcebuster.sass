@@ -1,0 +1,67 @@
+/* Globe */
+
+*
+  margin: 0
+  padding: 0
+
+header, footer, article, section, nav, figure
+  display: block
+
+.group
+  zoom: 1
+  &:before, &:after
+    content: ""
+    display: table
+  &:after
+    clear: both
+
+/* Styles */
+
+#wrapper
+  margin: 2em auto
+  width: 700px
+
+body
+  color: #333
+  background-color: #fff
+  font-family: Verdana, sans-serif
+  font-weight: 400
+  font-size: 14px
+
+h1
+  font-weight: 400
+  font-size: 1.9em
+  margin: 0 0 .7em 0
+
+h2
+  font-weight: 400
+  font-size: 1.5em
+  margin: 1em 0 0 0
+
+h3
+  font-weight: 400
+  font-size: 1.2em
+  margin: 1.9em 0 .7em 0
+
+#src-links
+  padding: 1em
+  margin: 1em 0
+  background-color: #efefef
+
+table
+  padding: 1em 0
+  h3
+    margin: 0
+
+
+.sb-table-param-type, .sb-table-param-add-type
+  padding: .5em 1em 0 0
+  vertical-align: top
+  color: #777
+
+.sb-table-param-value, .sb-table-param-add-value
+  padding: .5em 0 0 0
+  vertical-align: top
+
+.sb-table-param-add-type
+  width: 130px

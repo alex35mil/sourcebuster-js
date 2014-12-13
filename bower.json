@@ -1,7 +1,7 @@
 {
   "name": "sourcebuster-js",
-  "version": "0.0.7",
-  "description": "Sourcebuster tracks sources of your site's visitors (utm / organic / referral / typein).",
+  "version": "1.0.0-beta",
+  "description": "Get sources of your site's visitors (utm / organic / referral / typein).",
   "homepage": "https://github.com/alexfedoseev/sourcebuster-js",
   "authors": [
     {
@@ -18,18 +18,18 @@
   "bugs": {
     "url": "https://github.com/alexfedoseev/sourcebuster-js/issues"
   },
-  "main": "js/sourcebuster.min.js",
+  "main": "./dist/sourcebuster.min.js",
   "ignore": [
     ".*",
     "**/.*",
     "package.json",
-    "Gruntfile.js",
+    "gulpfile.js",
     "node_modules",
     "bower_components",
     "test",
     "tests",
-    "index.html",
-    "css"
+    "src",
+    "lib"
   ],
   "dependencies": {}
 }
