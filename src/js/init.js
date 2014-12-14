@@ -89,7 +89,7 @@ module.exports = function(prefs) {
         }
 
         __sbjs_content  = get_param.utm_content || terms.none;
-        __sbjs_term     = get_param.utm_term    || terms.none;           // DOYO: Get term from referer
+        __sbjs_term     = getUtmTerm()          || terms.none;
         break;
 
       case terms.traffic.organic:
@@ -140,6 +140,21 @@ module.exports = function(prefs) {
 
   }
 
+  function getUtmTerm() {
+    var referer = document.referrer;
+    if (get_param.utm_term) {
+      return get_param.utm_term;
+    } else if (referer && uri.parse(referer).host && uri.parse(referer).host.match(/^(?:.*\.)?yandex\..{2,9}$/i)) {
+      try {
+        return uri.getParam(uri.parse(document.referrer).query).text;
+      } catch (err) {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
   function checkReferer(type) {
     var referer = document.referrer;
     switch(type) {
@@ -155,7 +170,7 @@ module.exports = function(prefs) {
   function checkRefererHost(referer) {
     if (p.domain) {
       if (!isolate) {
-        var host_regex = new RegExp('^(.*\\.)?' + utils.escapeRegexp(domain) + '$', 'i');
+        var host_regex = new RegExp('^(?:.*\\.)?' + utils.escapeRegexp(domain) + '$', 'i');
         return !(uri.getHost(referer).match(host_regex));
       } else {
         return (uri.getHost(referer) !== uri.getHost(domain));
@@ -171,9 +186,9 @@ module.exports = function(prefs) {
         y_param = 'text',
         g_host  = 'google';
 
-    var y_host_regex  = new RegExp('^(.*\\.)?'  + utils.escapeRegexp(y_host)  + '\\..{2,9}$'),
-        y_param_regex = new RegExp('.*'         + utils.escapeRegexp(y_param) + '=.*'),
-        g_host_regex  = new RegExp('^(www\\.)?' + utils.escapeRegexp(g_host)  + '\\..{2,9}$');
+    var y_host_regex  = new RegExp('^(?:.*\\.)?'  + utils.escapeRegexp(y_host)  + '\\..{2,9}$'),
+        y_param_regex = new RegExp('.*'           + utils.escapeRegexp(y_param) + '=.*'),
+        g_host_regex  = new RegExp('^(?:www\\.)?' + utils.escapeRegexp(g_host)  + '\\..{2,9}$');
 
     if (
         !!uri.parse(referer).query &&
@@ -188,8 +203,8 @@ module.exports = function(prefs) {
     } else if (!!uri.parse(referer).query) {
       for (var i = 0; i < p.organics.length; i++) {
         if (
-            uri.parse(referer).host.match(new RegExp('^(.*\\.)?' + utils.escapeRegexp(p.organics[i].host) + '$', 'i')) &&
-            uri.parse(referer).query.match(new RegExp('.*' + utils.escapeRegexp(p.organics[i].param) + '=.*', 'i'))
+            uri.parse(referer).host.match(new RegExp('^(?:.*\\.)?' + utils.escapeRegexp(p.organics[i].host)  + '$', 'i')) &&
+            uri.parse(referer).query.match(new RegExp('.*'         + utils.escapeRegexp(p.organics[i].param) + '=.*', 'i'))
           ) {
           __sbjs_source = p.organics[i].display || p.organics[i].host;
           return true;
@@ -206,7 +221,7 @@ module.exports = function(prefs) {
   function isReferral(referer) {
     if (p.referrals.length > 0) {
       for (var i = 0; i < p.referrals.length; i++) {
-        if (uri.parse(referer).host.match(new RegExp('^(.*\\.)?' + utils.escapeRegexp(p.referrals[i].host) + '$', 'i'))) {
+        if (uri.parse(referer).host.match(new RegExp('^(?:.*\\.)?' + utils.escapeRegexp(p.referrals[i].host) + '$', 'i'))) {
           __sbjs_source = p.referrals[i].display  || p.referrals[i].host;
           __sbjs_medium = p.referrals[i].medium   || terms.referer.referral;
           return true;

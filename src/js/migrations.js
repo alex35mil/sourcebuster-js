@@ -49,7 +49,7 @@ module.exports = {
 
         try {
 
-          // Switch delimiter and renew cookie
+          // Switch delimiter and renew cookies
           var _in = [];
           for (var prop in data.containers) {
             if (data.containers.hasOwnProperty(prop)) {

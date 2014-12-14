@@ -31,9 +31,9 @@ module.exports = {
     }
   },
 
-  getParam: function() {
+  getParam: function(custom_params) {
     var query_string = {},
-        query = window.location.search.substring(1),
+        query = custom_params ? custom_params : window.location.search.substring(1),
         vars = query.split('&');
 
     for (var i = 0; i < vars.length; i++) {

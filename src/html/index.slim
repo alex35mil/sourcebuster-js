@@ -84,7 +84,7 @@ html
                 td [class="sb-table-param-add-value" id="sb_first_add_ep"]
               tr
                 td [class="sb-table-param-add-type"] First referer:
-                td [class="sb-table-param-add-value" id="sb_referer_first_ref"]
+                td [class="sb-table-param-add-value" id="sb_first_add_rf"]
               tr
                 td [class="sb-table-param-add-type"] Current visit date:
                 td [class="sb-table-param-add-value" id="sb_current_add_fd"]
@@ -93,7 +93,7 @@ html
                 td [class="sb-table-param-add-value" id="sb_current_add_ep"]
               tr
                 td [class="sb-table-param-add-type"] Current referer:
-                td [class="sb-table-param-add-value" id="sb_referer_ref"]
+                td [class="sb-table-param-add-value" id="sb_current_add_rf"]
 
               tr
                 td [class="sb-table-param-add-type"] Pages seen:
@@ -117,39 +117,52 @@ html
 
       javascript:
 
-        sbjs.init({ callback: place_data });
+        sbjs.init({
+          referrals: [
+            {
+              host: 't.co',
+              medium: 'social',
+              display: 'twitter.com'
+            },
+            {
+              host: 'plus.url.google.com',
+              display: 'plus.google.com'
+            }
+          ],
+          callback: place_data
+        });
 
-        function place_data(get_sbjs) {
-          document.getElementById('sb_first_typ').innerHTML = get_sbjs.first.typ;
-          document.getElementById('sb_first_src').innerHTML = get_sbjs.first.src;
-          document.getElementById('sb_first_mdm').innerHTML = get_sbjs.first.mdm;
-          document.getElementById('sb_first_cmp').innerHTML = get_sbjs.first.cmp;
-          document.getElementById('sb_first_cnt').innerHTML = get_sbjs.first.cnt;
-          document.getElementById('sb_first_trm').innerHTML = get_sbjs.first.trm;
+        function place_data(sb) {
+          document.getElementById('sb_first_typ').innerHTML = sb.first.typ;
+          document.getElementById('sb_first_src').innerHTML = sb.first.src;
+          document.getElementById('sb_first_mdm').innerHTML = sb.first.mdm;
+          document.getElementById('sb_first_cmp').innerHTML = sb.first.cmp;
+          document.getElementById('sb_first_cnt').innerHTML = sb.first.cnt;
+          document.getElementById('sb_first_trm').innerHTML = sb.first.trm;
 
-          document.getElementById('sb_current_typ').innerHTML = get_sbjs.current.typ;
-          document.getElementById('sb_current_src').innerHTML = get_sbjs.current.src;
-          document.getElementById('sb_current_mdm').innerHTML = get_sbjs.current.mdm;
-          document.getElementById('sb_current_cmp').innerHTML = get_sbjs.current.cmp;
-          document.getElementById('sb_current_cnt').innerHTML = get_sbjs.current.cnt;
-          document.getElementById('sb_current_trm').innerHTML = get_sbjs.current.trm;
+          document.getElementById('sb_current_typ').innerHTML = sb.current.typ;
+          document.getElementById('sb_current_src').innerHTML = sb.current.src;
+          document.getElementById('sb_current_mdm').innerHTML = sb.current.mdm;
+          document.getElementById('sb_current_cmp').innerHTML = sb.current.cmp;
+          document.getElementById('sb_current_cnt').innerHTML = sb.current.cnt;
+          document.getElementById('sb_current_trm').innerHTML = sb.current.trm;
 
-          document.getElementById('sb_first_add_fd').innerHTML = get_sbjs.first_add.fd;
-          document.getElementById('sb_first_add_ep').innerHTML = get_sbjs.first_add.ep;
-          document.getElementById('sb_referer_first_ref').innerHTML = get_sbjs.first_add.rf;
+          document.getElementById('sb_first_add_fd').innerHTML = sb.first_add.fd;
+          document.getElementById('sb_first_add_ep').innerHTML = sb.first_add.ep;
+          document.getElementById('sb_first_add_rf').innerHTML = sb.first_add.rf;
 
-          document.getElementById('sb_current_add_fd').innerHTML = get_sbjs.current_add.fd;
-          document.getElementById('sb_current_add_ep').innerHTML = get_sbjs.current_add.ep;
-          document.getElementById('sb_referer_ref').innerHTML = get_sbjs.current_add.rf;
+          document.getElementById('sb_current_add_fd').innerHTML = sb.current_add.fd;
+          document.getElementById('sb_current_add_ep').innerHTML = sb.current_add.ep;
+          document.getElementById('sb_current_add_rf').innerHTML = sb.current_add.rf;
 
-          document.getElementById('sb_session_pgs').innerHTML = get_sbjs.session.pgs;
-          document.getElementById('sb_session_cpg').innerHTML = get_sbjs.session.cpg;
+          document.getElementById('sb_session_pgs').innerHTML = sb.session.pgs;
+          document.getElementById('sb_session_cpg').innerHTML = sb.session.cpg;
 
-          document.getElementById('sb_udata_vst').innerHTML = get_sbjs.udata.vst;
-          document.getElementById('sb_udata_uip').innerHTML = get_sbjs.udata.uip;
-          document.getElementById('sb_udata_uag').innerHTML = get_sbjs.udata.uag;
+          document.getElementById('sb_udata_vst').innerHTML = sb.udata.vst;
+          document.getElementById('sb_udata_uip').innerHTML = sb.udata.uip;
+          document.getElementById('sb_udata_uag').innerHTML = sb.udata.uag;
 
-          document.getElementById('sb_promo_code').innerHTML = get_sbjs.promo.code;
+          document.getElementById('sb_promo_code').innerHTML = sb.promo.code;
         }
 
 
