@@ -59,8 +59,8 @@ module.exports = {
     return null;
   },
 
-  destroy: function(name) {
-    this.set(name, '', -1);
+  destroy: function(name, domain, excl_subdomains) {
+    this.set(name, '', -1, domain, excl_subdomains);
   },
 
   parse: function(yammy) {

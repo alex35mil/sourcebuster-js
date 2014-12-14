@@ -49,7 +49,7 @@ module.exports = {
 
         try {
 
-          // Switch delimiter
+          // Switch delimiter and renew cookie
           var _in = [];
           for (var prop in data.containers) {
             if (data.containers.hasOwnProperty(prop)) {
@@ -59,7 +59,10 @@ module.exports = {
 
           for (var i = 0; i < _in.length; i++) {
             if (cookies.get(_in[i])) {
-              cookies.set(_in[i], cookies.get(_in[i]).replace(/(\|)?\|(\|)?/g, safeReplace), _with.l, _with.d, _with.i);
+              var buffer = cookies.get(_in[i]).replace(/(\|)?\|(\|)?/g, safeReplace);
+              cookies.destroy(_in[i], _with.d, _with.i);
+              cookies.destroy(_in[i], _with.d, !_with.i);
+              cookies.set(_in[i], buffer, _with.l, _with.d, _with.i);
             }
           }
 
