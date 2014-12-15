@@ -1,12 +1,12 @@
 ## 1.0.0
 
-[Upgrade guide](UPGRADING.md) &middot; [Updated documentation](README.md) (coming soon)
+[Upgrade guide](UPGRADING.md) &middot; [Updated documentation](README.md)
 
 Changes:
 
 _Major_
 
-  - API. Rewritten from the ground. See [upgrade guide](UPGRADING.md) and [updated documentation](README.md) (coming soon).
+  - API. Rewritten from the ground. See [upgrade guide](UPGRADING.md) and [updated documentation](README.md).
   - Changed cookie's domain handling — also see [upgrade guide](UPGRADING.md) and [updated documentation](README.md).
   - Changed default `utm_source` & `utm_medium` values for `typein` traffic — you know [what to do](UPGRADING.md) :)
 
@@ -16,7 +16,7 @@ _Minor_
 
 _Under the hood_
 
-  - In short: `mess` became `structure`. Sourcebuster became modular app with solid API.
+  - In short: `mess` became `structure`. Check the sources if interested.
   - Added migration tool, which updates visitor's cookies to `1.x.x`.
   - Changed params delimiter in cookies: from `|` to `|||`. Cookies will be automatically upgraded by migration tool without data loss. You don't have to worry about this change unless you parse these cookies by yourself.
 
