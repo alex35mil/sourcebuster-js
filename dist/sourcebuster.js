@@ -181,17 +181,17 @@ module.exports = {
     this.set(name, '', -1, domain, excl_subdomains);
   },
 
-  parse: function(yammy) {
+  parse: function(yummy) {
 
     var cookies = [],
         data    = {};
 
-    if (typeof yammy === 'string') {
-      cookies.push(yammy);
+    if (typeof yummy === 'string') {
+      cookies.push(yummy);
     } else {
-      for (var prop in yammy) {
-        if (yammy.hasOwnProperty(prop)) {
-          cookies.push(yammy[prop]);
+      for (var prop in yummy) {
+        if (yummy.hasOwnProperty(prop)) {
+          cookies.push(yummy[prop]);
         }
       }
     }

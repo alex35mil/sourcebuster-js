@@ -55,7 +55,7 @@ sbjs.init({
   // 30 minutes is default
   session_length: 30,
 
-  // Set domain name for cookies
+  // Set domain name in cookies
   // Behaviour is changed! Detailed explanation below
   domain: {
     host: 'alexfedoseev.com',
@@ -191,7 +191,7 @@ domain: {
 }
 ```
 
-Hope you've got the point. If you have any questions — check documentation for more detailed explanation or [post an issue](https://github.com/alexfedoseev/sourcebuster-js/issues/new).
+Hope you've got the point. If you have any questions — check [documentation](README.md) for more detailed explanation or [post an issue](https://github.com/alexfedoseev/sourcebuster-js/issues/new).
 
 After you'll roll out the `1.0.0` to production, visitor's old cookies will be updated to chosen setup. Again: it's one-time migration, so chose wisely.
 
@@ -239,6 +239,10 @@ timezone_offset: 3
 ```
 
 Nothing changed except default behaviour. In `0.0.x`, if no custom value was set, time was normalized to UTC. `1.0.0` have no normalization by default, script uses user's system time.
+
+Example. Your visitor is in London (`UTC +00:00`). His local time is `03:00 AM`. If no `timezone_offset` was set, the time in cookie will be `03:00 AM`. Another visitor at the same moment is from Berlin (`UTC +01:00`) and his local time is `04:00 AM`. The time in cookie will be `04:00 AM`.
+
+If you want to normalize time of all visitors (let it be `UTC +03:00` for example), you should set it via `timezone_offset: 3`. So the time in cookies of both visitors will be `06:00 AM`.
 
 ##### callback
 
