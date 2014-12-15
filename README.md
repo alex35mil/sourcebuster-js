@@ -16,15 +16,13 @@
 ## Install
 You can [download this repo](https://github.com/alexfedoseev/sourcebuster-js/archive/master.zip) and use `sourcebuster.min.js` from `/dist` folder.
 
-Or install it from `npm`:
+Or install it:
 
-```
+```python
+# from `npm`
 npm install --save sourcebuster-js
-```
 
-Or `bower`:
-
-```
+# or `bower`
 bower install --save sourcebuster-js
 ```
 
