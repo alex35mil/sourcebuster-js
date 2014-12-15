@@ -1,3 +1,33 @@
+## 1.0.0
+
+Changes:
+
+_Major_
+
+  - API. Rewritten from the ground. See [upgrade guide](UPGRADING.md) and updated documentation (coming soon).
+  - Changed cookie's domain handling — also see [upgrade guide](UPGRADING.md) and updated documentation.
+  - Changed default `utm_source` & `utm_medium` values for `typein` traffic — you know [what to do](UPGRADING.md) :)
+
+_Minor_
+
+  - Changed default timezone from UTC to user's system (default — means no custom value provided during `sbjs` initialization).
+
+_Under the hood_
+
+  - In short: `mess` became `structure`. Sourcebuster became modular app with solid API.
+  - Added migration tool, which updates visitor's cookies to `1.x.x`.
+  - Changed params delimiter in cookies: from `|` to `|||`. Cookies will be automatically upgraded by migration tool without data loss. You don't have to worry about this change unless you parse these cookies by yourself.
+
+Features:
+
+  - Added `callback` option to set custom function, which will be executed right after `sbjs` cookies will be set. This function will get `sbjs.get`-object as argument (it contains all detected `sbjs` data).
+  - Added ability to set custom cookies expiration period
+  - Added `term` detection from Yandex Direct traffic (if there is no `utm_term` in URL)
+  - Added `visits` counter: available through `sbjs.get.udata.vst`
+  - Added `pages` counter for current session: available through `sbjs.get.session.pgs`
+  - Added `current page` url for current session: available through `sbjs.get.session.cpg`
+  - And Sourcebuster `1.0.0` available as `CommonJS` / `AMD` module.
+
 ## 0.0.7
 
 Features:

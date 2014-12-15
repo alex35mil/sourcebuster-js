@@ -10,14 +10,16 @@ module.exports = {
     var migrate = this.migrations,
         _with   = { l: lifetime, d: domain, i: isolate };
 
-    var mids = [];
-    for (var i = 0; i < migrate.length; i++) { mids.push(migrate[i].id); }
+    var i;
 
     if (!cookies.get(data.containers.first) && !cookies.get(data.service.migrations)) {
 
+      var mids = [];
+      for (i = 0; i < migrate.length; i++) { mids.push(migrate[i].id); }
+
       var advance = '';
       for (i = 0; i < mids.length; i++) {
-        advance += mids[i] + '=' + '1';
+        advance += mids[i] + '=1';
         if (i < mids.length - 1) { advance += data.delimiter; }
       }
       cookies.set(data.service.migrations, advance, _with.l, _with.d, _with.i);
