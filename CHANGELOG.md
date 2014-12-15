@@ -1,11 +1,13 @@
 ## 1.0.0
 
+[Upgrade guide](UPGRADING.md) &middot; [Updated documentation](README.md) (coming soon)
+
 Changes:
 
 _Major_
 
-  - API. Rewritten from the ground. See [upgrade guide](UPGRADING.md) and updated documentation (coming soon).
-  - Changed cookie's domain handling — also see [upgrade guide](UPGRADING.md) and updated documentation.
+  - API. Rewritten from the ground. See [upgrade guide](UPGRADING.md) and [updated documentation](README.md) (coming soon).
+  - Changed cookie's domain handling — also see [upgrade guide](UPGRADING.md) and [updated documentation](README.md).
   - Changed default `utm_source` & `utm_medium` values for `typein` traffic — you know [what to do](UPGRADING.md) :)
 
 _Minor_

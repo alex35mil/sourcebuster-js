@@ -191,7 +191,7 @@ domain: {
 }
 ```
 
-Hope you've got the point. If you have any questions — check documentation for more detailed explanation or post the issue.
+Hope you've got the point. If you have any questions — check documentation for more detailed explanation or [post an issue](https://github.com/alexfedoseev/sourcebuster-js/issues/new).
 
 After you'll roll out the `1.0.0` to production, visitor's old cookies will be updated to chosen setup. Again: it's one-time migration, so chose wisely.
 
@@ -274,4 +274,4 @@ document.getElementById('user-source').innerHTML = get_sbjs.current.src;
 Changed params delimiter in cookies: from `|` to `|||`. Cookies will be automatically upgraded by migration tool without data loss. You don't have to worry about this change unless you parse these cookies by yourself.
 
 
-That's it. If you have any questions — place an issue.
+That's it. If you have any questions — [place an issue](https://github.com/alexfedoseev/sourcebuster-js/issues/new).
