@@ -2,6 +2,18 @@
 
 I'm gonna walk you through the inline-HTML setup pattern, but keep in mind, that Sourcebuster `1.0.0` is available as `CommonJS` / `AMD` module, so you can `require` it as dependency as well.
 
+### Install
+
+```python
+# from `npm`
+npm install --save sourcebuster
+
+# or `bower`
+bower install --save sourcebuster
+```
+
+Or you can [download this repo](https://github.com/alexfedoseev/sourcebuster-js/archive/master.zip) and use `sourcebuster.min.js` from `/dist` folder.
+
 ### Setup
 
 Place inside the `<head>` tag:

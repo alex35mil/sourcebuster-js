@@ -21,10 +21,10 @@ Read [upgrade guide](UPGRADING.md) for details.
 
 ```python
 # from `npm`
-npm install --save sourcebuster-js
+npm install --save sourcebuster
 
 # or `bower`
-bower install --save sourcebuster-js
+bower install --save sourcebuster
 ```
 
 Or you can [download this repo](https://github.com/alexfedoseev/sourcebuster-js/archive/master.zip) and use `sourcebuster.min.js` from `/dist` folder.
