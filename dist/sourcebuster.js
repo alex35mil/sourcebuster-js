@@ -1,23 +1,23 @@
-!function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.sbjs=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+!function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.sbjs=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
 "use strict";
 
-var init = require('./init');
+var init = _dereq_('./init');
 
 var sbjs = {
-  init: function(params) {
-    this.get = init(params);
-    if (params.callback && typeof params.callback === 'function') {
-      params.callback(this.get);
+  init: function(prefs) {
+    this.get = init(prefs);
+    if (prefs && prefs.callback && typeof prefs.callback === 'function') {
+      prefs.callback(this.get);
     }
   }
 };
 
 module.exports = sbjs;
-},{"./init":6}],2:[function(require,module,exports){
+},{"./init":6}],2:[function(_dereq_,module,exports){
 "use strict";
 
-var terms = require('./terms'),
-    utils = require('./helpers/utils');
+var terms = _dereq_('./terms'),
+    utils = _dereq_('./helpers/utils');
 
 var data = {
 
@@ -115,10 +115,10 @@ var data = {
 };
 
 module.exports = data;
-},{"./helpers/utils":5,"./terms":9}],3:[function(require,module,exports){
+},{"./helpers/utils":5,"./terms":9}],3:[function(_dereq_,module,exports){
 "use strict";
 
-var delimiter = require('../data').delimiter;
+var delimiter = _dereq_('../data').delimiter;
 
 module.exports = {
 
@@ -222,7 +222,7 @@ module.exports = {
 
 };
 
-},{"../data":2}],4:[function(require,module,exports){
+},{"../data":2}],4:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = {
@@ -280,7 +280,7 @@ module.exports = {
   }
 
 };
-},{}],5:[function(require,module,exports){
+},{}],5:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = {
@@ -318,16 +318,16 @@ module.exports = {
 
 };
 
-},{}],6:[function(require,module,exports){
+},{}],6:[function(_dereq_,module,exports){
 "use strict";
 
-var data        = require('./data'),
-    terms       = require('./terms'),
-    cookies     = require('./helpers/cookies'),
-    uri         = require('./helpers/uri'),
-    utils       = require('./helpers/utils'),
-    params      = require('./params'),
-    migrations  = require('./migrations');
+var data        = _dereq_('./data'),
+    terms       = _dereq_('./terms'),
+    cookies     = _dereq_('./helpers/cookies'),
+    uri         = _dereq_('./helpers/uri'),
+    utils       = _dereq_('./helpers/utils'),
+    params      = _dereq_('./params'),
+    migrations  = _dereq_('./migrations');
 
 module.exports = function(prefs) {
 
@@ -605,11 +605,11 @@ module.exports = function(prefs) {
   return cookies.parse(data.containers);
 
 };
-},{"./data":2,"./helpers/cookies":3,"./helpers/uri":4,"./helpers/utils":5,"./migrations":7,"./params":8,"./terms":9}],7:[function(require,module,exports){
+},{"./data":2,"./helpers/cookies":3,"./helpers/uri":4,"./helpers/utils":5,"./migrations":7,"./params":8,"./terms":9}],7:[function(_dereq_,module,exports){
 "use strict";
 
-var data    = require('./data'),
-    cookies = require('./helpers/cookies');
+var data    = _dereq_('./data'),
+    cookies = _dereq_('./helpers/cookies');
 
 module.exports = {
 
@@ -694,57 +694,58 @@ module.exports = {
   ]
 
 };
-},{"./data":2,"./helpers/cookies":3}],8:[function(require,module,exports){
+},{"./data":2,"./helpers/cookies":3}],8:[function(_dereq_,module,exports){
 "use strict";
 
-var terms = require('./terms'),
-    uri   = require('./helpers/uri');
+var terms = _dereq_('./terms'),
+    uri   = _dereq_('./helpers/uri');
 
 module.exports = {
 
-  fetch: function(u) {
+  fetch: function(prefs) {
 
-    var params = {};
+    var user   = prefs || {},
+        params = {};
 
     // Set `lifetime of the cookie` in months
-    params.lifetime = this.validate.checkFloat(u.lifetime) || 6;
+    params.lifetime = this.validate.checkFloat(user.lifetime) || 6;
     params.lifetime = parseInt(params.lifetime * 30 * 24 * 60);
 
     // Set `session length` in minutes
-    params.session_length = this.validate.checkInt(u.session_length) || 30;
+    params.session_length = this.validate.checkInt(user.session_length) || 30;
 
     // Set `timezone offset` in hours
-    params.timezone_offset = this.validate.checkInt(u.timezone_offset);
+    params.timezone_offset = this.validate.checkInt(user.timezone_offset);
 
     // Set `campaign param` for AdWords links
-    params.campaign_param = u.campaign_param || false;
+    params.campaign_param = user.campaign_param || false;
 
     // Set `user ip`
-    params.user_ip = u.user_ip || terms.none;
+    params.user_ip = user.user_ip || terms.none;
 
     // Set `promocode`
-    if (u.promocode) {
+    if (user.promocode) {
       params.promocode = {};
-      params.promocode.min = parseInt(u.promocode.min) || 100000;
-      params.promocode.max = parseInt(u.promocode.max) || 999999;
+      params.promocode.min = parseInt(user.promocode.min) || 100000;
+      params.promocode.max = parseInt(user.promocode.max) || 999999;
     } else {
       params.promocode = false;
     }
 
     // Set `typein attributes`
-    if (u.typein_attributes && u.typein_attributes.source && u.typein_attributes.medium) {
+    if (user.typein_attributes && user.typein_attributes.source && user.typein_attributes.medium) {
       params.typein_attributes = {};
-      params.typein_attributes.source = u.typein_attributes.source;
-      params.typein_attributes.medium = u.typein_attributes.medium;
+      params.typein_attributes.source = user.typein_attributes.source;
+      params.typein_attributes.medium = user.typein_attributes.medium;
     } else {
       params.typein_attributes = { source: '(direct)', medium: '(none)' };
     }
 
     // Set `domain`
-    if (u.domain && this.validate.isString(u.domain)) {
-      params.domain = { host: u.domain, isolate: false };
-    } else if (u.domain && u.domain.host) {
-      params.domain = u.domain;
+    if (user.domain && this.validate.isString(user.domain)) {
+      params.domain = { host: user.domain, isolate: false };
+    } else if (user.domain && user.domain.host) {
+      params.domain = user.domain;
     } else {
       params.domain = { host: uri.getHost(document.location.hostname), isolate: false };
     }
@@ -752,10 +753,10 @@ module.exports = {
     // Set `referral sources`
     params.referrals = [];
 
-    if (u.referrals && u.referrals.length > 0) {
-      for (var ir = 0; ir < u.referrals.length; ir++) {
-        if (u.referrals[ir].host) {
-          params.referrals.push(u.referrals[ir]);
+    if (user.referrals && user.referrals.length > 0) {
+      for (var ir = 0; ir < user.referrals.length; ir++) {
+        if (user.referrals[ir].host) {
+          params.referrals.push(user.referrals[ir]);
         }
       }
     }
@@ -763,10 +764,10 @@ module.exports = {
     // Set `organic sources`
     params.organics = [];
 
-    if (u.organics && u.organics.length > 0) {
-      for (var io = 0; io < u.organics.length; io++) {
-        if (u.organics[io].host && u.organics[io].param) {
-          params.organics.push(u.organics[io]);
+    if (user.organics && user.organics.length > 0) {
+      for (var io = 0; io < user.organics.length; io++) {
+        if (user.organics[io].host && user.organics[io].param) {
+          params.organics.push(user.organics[io]);
         }
       }
     }
@@ -806,7 +807,7 @@ module.exports = {
   }
 
 };
-},{"./helpers/uri":4,"./terms":9}],9:[function(require,module,exports){
+},{"./helpers/uri":4,"./terms":9}],9:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = {
