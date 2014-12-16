@@ -1,5 +1,9 @@
 # Sourcebuster JS
 
+#### 1.0.0-beta is merged to master
+
+Read [upgrade guide](UPGRADING.md) for details.
+
 ## About
 * Sourcebuster tracks the sources of your site’s visitors and stores the data in the cookies for further analysis.
 * It handles sources-overriding just like Google Analytics does.
@@ -14,9 +18,6 @@
 [Download](https://github.com/alexfedoseev/sourcebuster-js/archive/master.zip) &middot; [Upgrade guide](UPGRADING.md) &middot; [Changelog](CHANGELOG.md) &middot; [Test page](http://statica.alexfedoseev.com/sourcebuster-js/)
 
 ## Install
-You can [download this repo](https://github.com/alexfedoseev/sourcebuster-js/archive/master.zip) and use `sourcebuster.min.js` from `/dist` folder.
-
-Or install it:
 
 ```python
 # from `npm`
@@ -25,6 +26,8 @@ npm install --save sourcebuster-js
 # or `bower`
 bower install --save sourcebuster-js
 ```
+
+Or you can [download this repo](https://github.com/alexfedoseev/sourcebuster-js/archive/master.zip) and use `sourcebuster.min.js` from `/dist` folder.
 
 ## Setup
 I'm gonna walk you through the inline-HTML setup pattern, but keep in mind, that Sourcebuster is available as `CommonJS` / `AMD` module, so you can `require` it as dependency as well.
@@ -37,7 +40,7 @@ Place in the `<head>` tag:
 <script src="/path/to/sourcebuster.min.js"></script>
 ```
 
-It will expose Sourcebuster object — `sbjs`. It has just 2 methods: `init` and `get`. Basically first one is `setter`, and the second one is `getter`.
+It will expose Sourcebuster object — `sbjs`. This object has just 2 methods: `init` and `get`. Basically first one is `setter`, and the second one is `getter`.
 
 So, lets initialize it:
 
@@ -102,9 +105,9 @@ sbjs.init({
   // Set custom referral sources
   referrals: [
     {
-      host: 't.co',            // This is host from Twitter's `http referer`
-      medium: 'social',        // This is custom `utm_medium`, you can drop it and it'll be `referral`
-      display: 'twitter.com'   // And this is how you'll see it in the result data
+      host: 't.co',          // This is host from Twitter's `http referer`
+      medium: 'social',      // This is custom `utm_medium`, you can drop it and it'll be `referral`
+      display: 'twitter.com' // And this is how you'll see it in the result data
     },
     {
       host: 'plus.url.google.com',
@@ -165,16 +168,15 @@ session_length: 30
 ```
 
 Setting up user's session duration (in minutes). Default is 30.
-In **sourcebuster.js** this parameter affects only referral sources overriding.
 
-A few words about sources overriding. When the visitor comes on your site for the first time, we receive and store the data about his source. After some time this visitor can return to your website, but from another source, and we need to have some rules to decide — should we overwrite previous source or we should not.
+This parameter affects only referral sources overriding. When the visitor comes on your site for the first time, we receive and store the data about his source. After some time this visitor can return to your website, but from another source, and we need to have some rules to decide — should we overwrite previous source or we should not.
 
 The rules are the same with Google Analytics:
 * UTM and Organic source always overrides any previous source.
 * Typein never overrides a previous source.
 * Referral source overrides previous source only if there is no user session at the moment. If it’s inside the same session — a referral source will never override previous source.
 
-Explanation to Referral logic: sometimes visitor within the current visit (session) comes to the website from the “source” which is not actually a “source”. For example, it can be visit from the email service, where he had a registration activation link.
+Explanation to `referral` logic: sometimes visitor within the current visit (session) comes to the website from the “source” which is not actually a “source”. For example, it can be visit from the email service, where he had a registration activation link.
 
 #### domain
 
@@ -225,6 +227,7 @@ In our example if the visitor came for the first time on the main site **wow.com
 The option, that will give the ability to force-update cookies domain (if you need to change subdomains handling rules), is in my TODO-list, but not available yet.
 
 How to check that `isolate` is set right:
+
 * host of the page, which code have setting `domain` with param `isolate: true` must be equal to the host provided in `domain` line:
 
 ```javascript
@@ -395,10 +398,13 @@ promocode: {
 }
 ```
 
-Sets random promocode for visitor. **This option is beta.**
+Sets random promocode for visitor.
+
 If you don't want to do promocode-stuff on your back, Sourcebuster can generate them or you.
 There is no check for uniqueness, of course. But you can rely on probability and set range of promocode values `min` and `max` params.
 They are optional, by the way. If they are not set, range will be between 100 000 and 999 999.
+
+**This option is beta — mainly because I haven't check the percent of duplicated promos on big projects.**
 
 #### callback
 
