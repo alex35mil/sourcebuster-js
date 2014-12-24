@@ -1,3 +1,9 @@
+## 1.0.1
+
+Fixes:
+
+  - fixed validation of `lifetime`, `session_length` and `timezone_offset` params
+
 ## 1.0.0
 
 [Upgrade guide](UPGRADING.md) &middot; [Updated documentation](README.md)
