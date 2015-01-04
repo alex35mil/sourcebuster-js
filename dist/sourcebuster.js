@@ -297,11 +297,11 @@ module.exports = {
     date.setHours(now_hours + utc_offset + custom_offset);
 
     var year    = date.getFullYear(),
-        month   = this.setLeadingZeroToInt(date.getMonth(),   2),
-        day     = this.setLeadingZeroToInt(date.getDate(),    2),
-        hour    = this.setLeadingZeroToInt(date.getHours(),   2),
-        minute  = this.setLeadingZeroToInt(date.getMinutes(), 2),
-        second  = this.setLeadingZeroToInt(date.getSeconds(), 2);
+        month   = this.setLeadingZeroToInt(date.getMonth() + 1,   2),
+        day     = this.setLeadingZeroToInt(date.getDate(),        2),
+        hour    = this.setLeadingZeroToInt(date.getHours(),       2),
+        minute  = this.setLeadingZeroToInt(date.getMinutes(),     2),
+        second  = this.setLeadingZeroToInt(date.getSeconds(),     2);
 
     return (year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second);
   },

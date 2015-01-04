@@ -1,3 +1,9 @@
+## 1.0.3
+
+Fixes:
+
+  - fixed month in dates (`sbjs.get.first_add.fd` & `sbjs.get.current_add.fd`): it was -1 from actual one
+
 ## 1.0.2
 
 Fixes:
