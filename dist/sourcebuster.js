@@ -636,7 +636,7 @@ module.exports = {
 
       // We have only one migration for now, so just
       for (i = 0; i < migrate.length; i++) {
-        migrate[i].do(migrate[i].id, _with);
+        migrate[i].go(migrate[i].id, _with);
       }
 
     }
@@ -648,7 +648,7 @@ module.exports = {
     {
       id: '1418474375998',
       version: '1.0.0-beta',
-      do: function(mid, _with) {
+      go: function(mid, _with) {
 
         var success = mid + '=1',
             fail    = mid + '=0';
