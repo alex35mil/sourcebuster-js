@@ -1,6 +1,6 @@
 # Sourcebuster JS
 
-#### 1.0.3 is merged to master
+#### 1.0.4 is merged to master
 
 Read [upgrade guide](UPGRADING.md) for details.
 

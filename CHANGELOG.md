@@ -1,3 +1,9 @@
+## 1.0.4
+
+Fixes:
+
+  - fixed IE8 bug
+
 ## 1.0.3
 
 Fixes:
