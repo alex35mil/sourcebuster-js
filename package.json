@@ -16,6 +16,20 @@
   "bugs": {
     "url": "https://github.com/alexfedoseev/sourcebuster-js/issues"
   },
+  "keywords": [
+    "google",
+    "analytics",
+    "adwords",
+    "utm",
+    "utm_source",
+    "utm_medium",
+    "utm_campaign",
+    "utm_content",
+    "utm_term",
+    "organic",
+    "referral",
+    "direct"
+  ],
   "main": "./dist/sourcebuster.js",
   "scripts": {
     "start": "NODE_ENV=development http-server -a js.dev -p 8080 & gulp",
