@@ -1,6 +1,6 @@
 # Sourcebuster JS
 
-#### 1.0.4 is merged to master
+#### 1.0.5 is merged to master
 
 Read [upgrade guide](UPGRADING.md) for details.
 
@@ -38,6 +38,12 @@ Place in the `<head>` tag:
 
 ```html
 <script src="/path/to/sourcebuster.min.js"></script>
+```
+
+Or require it:
+
+```javascript
+var sbjs = require('sourcebuster');
 ```
 
 It will expose Sourcebuster object — `sbjs`. This object has just 2 methods: `init` and `get`. Basically first one is `setter`, and the second one is `getter`.
@@ -274,6 +280,8 @@ Adds custom `referral` sources.
 In general if you’re ok with the fact that medium (`utm_medium`) of traffic from `facebook.com` is `referral`, you don’t need this setting. But if you want to make this kind of traffic `social` (`utm_medium=social`), you can set it up using `referrals`. First param is `host` of the source from `http referer`, second — `medium` — preferred value of `utm_medium`.
 
 Moreover some of the traffic sources have different referer host in relation to their main domain (for example, traffic from Twitter has referer with the host — `t.co`). In these cases you can assign alias to the source using optional `display` param. Also with this param you can group the traffic from the set of the sites into one virtual source.
+
+Twitter (`host: 't.co', display: 'twitter.com'`) and Google+ (`host: 'plus.url.google.com', display: 'plus.google.com'`) added to default `referral` sources. You still can override it by your custom setting (to mark it as `social` for example).
 
 #### organics
 

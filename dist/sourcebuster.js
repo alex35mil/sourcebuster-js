@@ -772,15 +772,19 @@ module.exports = {
       }
     }
 
-    params.organics.push({ host: 'bing.com',      param: 'q',     display: 'bing'       });
-    params.organics.push({ host: 'yahoo.com',     param: 'p',     display: 'yahoo'      });
-    params.organics.push({ host: 'about.com',     param: 'q',     display: 'about'      });
-    params.organics.push({ host: 'aol.com',       param: 'q',     display: 'aol'        });
-    params.organics.push({ host: 'ask.com',       param: 'q',     display: 'ask'        });
-    params.organics.push({ host: 'globososo.com', param: 'q',     display: 'globo'      });
-    params.organics.push({ host: 'go.mail.ru',    param: 'q',     display: 'go.mail.ru' });
-    params.organics.push({ host: 'rambler.ru',    param: 'query', display: 'rambler'    });
-    params.organics.push({ host: 'tut.by',        param: 'query', display: 'tut.by'     });
+    params.organics.push({ host: 'bing.com',      param: 'q',     display: 'bing'            });
+    params.organics.push({ host: 'yahoo.com',     param: 'p',     display: 'yahoo'           });
+    params.organics.push({ host: 'about.com',     param: 'q',     display: 'about'           });
+    params.organics.push({ host: 'aol.com',       param: 'q',     display: 'aol'             });
+    params.organics.push({ host: 'ask.com',       param: 'q',     display: 'ask'             });
+    params.organics.push({ host: 'globososo.com', param: 'q',     display: 'globo'           });
+    params.organics.push({ host: 'go.mail.ru',    param: 'q',     display: 'go.mail.ru'      });
+    params.organics.push({ host: 'rambler.ru',    param: 'query', display: 'rambler'         });
+    params.organics.push({ host: 'tut.by',        param: 'query', display: 'tut.by'          });
+
+    params.referrals.push({ host: 't.co',                         display: 'twitter.com'     });
+    params.referrals.push({ host: 'plus.url.google.com',          display: 'plus.google.com' });
+
 
     return params;
 

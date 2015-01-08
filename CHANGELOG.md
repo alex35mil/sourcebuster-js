@@ -1,3 +1,9 @@
+## 1.0.5
+
+Features:
+
+  - added `t.co` (`host: 't.co', display: 'twitter.com'`) and `plus.url.google.com` (`host: 'plus.url.google.com', display: 'plus.google.com'`) to default `referral` sources. You still can override it by your custom setting (to mark it as `social` for example).
+
 ## 1.0.4
 
 Fixes:

@@ -8,7 +8,7 @@ html
       script [src="http://html5shiv.googlecode.com/svn/trunk/html5.js"]
 
     link     [rel="stylesheet" href="css/sourcebuster.min.css"]
-    script   [src="js/sourcebuster.min.js?v=1.0.4"]
+    script   [src="js/sourcebuster.min.js?v=1.0.5"]
 
   body
 
@@ -125,21 +125,16 @@ html
           },
           referrals: [
             {
-              host: 't.co',
-              medium: 'social',
-              display: 'twitter.com'
-            },
-            {
               host: 'plus.url.google.com',
-              display: 'plus.google.com'
+              display: 'plus.google.com :)'
             }
           ],
           custom_campaign: 'my_adwords_campaign',
           promocode: true,
-          callback: place_data
+          callback: placeData
         });
 
-        function place_data(sb) {
+        function placeData(sb) {
           document.getElementById('sb_first_typ').innerHTML       = sb.first.typ;
           document.getElementById('sb_first_src').innerHTML       = sb.first.src;
           document.getElementById('sb_first_mdm').innerHTML       = sb.first.mdm;
