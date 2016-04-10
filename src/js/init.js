@@ -34,6 +34,7 @@ module.exports = function(prefs) {
         typeof get_param.utm_content       !== 'undefined' ||
         typeof get_param.utm_term          !== 'undefined' ||
         typeof get_param.gclid             !== 'undefined' ||
+        typeof get_param.yclid             !== 'undefined' ||
         typeof get_param[p.campaign_param] !== 'undefined'
       ) {
       setFirstAndCurrentExtraData();
@@ -66,6 +67,8 @@ module.exports = function(prefs) {
           __sbjs_source = get_param.utm_source;
         } else if (typeof get_param.gclid !== 'undefined') {
           __sbjs_source = 'google';
+        } else if (typeof get_param.yclid !== 'undefined') {
+          __sbjs_source = 'yandex';  
         } else {
           __sbjs_source = terms.none;
         }
@@ -74,6 +77,8 @@ module.exports = function(prefs) {
           __sbjs_medium = get_param.utm_medium;
         } else if (typeof get_param.gclid !== 'undefined') {
           __sbjs_medium = 'cpc';
+        } else if (typeof get_param.yclid !== 'undefined') {
+          __sbjs_medium = 'cpc';  
         } else {
           __sbjs_medium = terms.none;
         }
@@ -84,6 +89,8 @@ module.exports = function(prefs) {
           __sbjs_campaign = get_param[p.campaign_param];
         } else if (typeof get_param.gclid !== 'undefined') {
           __sbjs_campaign = 'google_cpc';
+        } else if (typeof get_param.yclid !== 'undefined') {
+          __sbjs_campaign = 'yandex_cpc';  
         } else {
           __sbjs_campaign = terms.none;
         }
