@@ -292,7 +292,7 @@ module.exports = {
   setDate: function(date, offset) {
     var utc_offset    = date.getTimezoneOffset() / 60,
         now_hours     = date.getHours(),
-        custom_offset = offset || -utc_offset;
+        custom_offset = offset || offset === 0 ? offset : -utc_offset;
 
     date.setHours(now_hours + utc_offset + custom_offset);
 

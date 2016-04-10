@@ -1,6 +1,6 @@
 {
   "name": "sourcebuster",
-  "version": "1.0.5",
+  "version": "1.1.0",
   "description": "Get sources of your site's visitors (utm / organic / referral / typein).",
   "homepage": "https://github.com/alexfedoseev/sourcebuster-js",
   "author": {
@@ -74,8 +74,8 @@
     "gulp-jshint": "^1.9.0",
     "gulp-minify-css": "^0.3.11",
     "gulp-rename": "^1.2.0",
-    "gulp-sass": "^1.2.4",
-    "gulp-slim": "0.0.10",
+    "gulp-sass": "^2.2.0",
+    "gulp-slim": "^0.3.0",
     "gulp-sourcemaps": "^1.2.8",
     "gulp-uglify": "^1.0.2",
     "gulp-util": "^3.0.1",
