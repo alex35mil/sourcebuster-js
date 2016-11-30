@@ -29,6 +29,7 @@ module.exports = {
 
   set: function(name, value, minutes, domain, excl_subdomains) {
     var expires, basehost;
+    var isIE11 = !!window.MSInputMethodContext && !!document.documentMode;
 
     if (minutes) {
       var date = new Date();
@@ -37,7 +38,7 @@ module.exports = {
     } else {
       expires = '';
     }
-    if (domain && !excl_subdomains) {
+    if (domain && !excl_subdomains && !isIE11) {
       basehost = ';domain=.' + domain;
     } else {
       basehost = '';
