@@ -1,6 +1,6 @@
 # Sourcebuster JS
 
-#### 1.0.5 is merged to master
+#### 1.0.5 is released.
 
 Read [upgrade guide](UPGRADING.md) for details.
 
@@ -19,7 +19,7 @@ Read [upgrade guide](UPGRADING.md) for details.
 
 ## Install
 
-```python
+```shell
 # from `npm`
 npm install --save sourcebuster
 
