@@ -23,6 +23,10 @@ module.exports = {
     // Set `campaign param` for AdWords links
     params.campaign_param = user.campaign_param || false;
 
+    // Set `term param` and `content param` for AdWords links
+    params.term_param = user.term_param || false;
+    params.content_param = user.content_param || false;
+
     // Set `user ip`
     params.user_ip = user.user_ip || terms.none;
 

@@ -292,7 +292,7 @@ module.exports = {
   setDate: function(date, offset) {
     var utc_offset    = date.getTimezoneOffset() / 60,
         now_hours     = date.getHours(),
-        custom_offset = offset || -utc_offset;
+        custom_offset = offset || offset === 0 ? offset : -utc_offset;
 
     date.setHours(now_hours + utc_offset + custom_offset);
 
@@ -355,7 +355,10 @@ module.exports = function(prefs) {
         typeof get_param.utm_content       !== 'undefined' ||
         typeof get_param.utm_term          !== 'undefined' ||
         typeof get_param.gclid             !== 'undefined' ||
-        typeof get_param[p.campaign_param] !== 'undefined'
+        typeof get_param.yclid             !== 'undefined' ||
+        typeof get_param[p.campaign_param] !== 'undefined' ||
+        typeof get_param[p.term_param]     !== 'undefined' ||
+        typeof get_param[p.content_param]  !== 'undefined'
       ) {
       setFirstAndCurrentExtraData();
       sbjs_data = getData(terms.traffic.utm);
@@ -387,6 +390,8 @@ module.exports = function(prefs) {
           __sbjs_source = get_param.utm_source;
         } else if (typeof get_param.gclid !== 'undefined') {
           __sbjs_source = 'google';
+        } else if (typeof get_param.yclid !== 'undefined') {
+          __sbjs_source = 'yandex';  
         } else {
           __sbjs_source = terms.none;
         }
@@ -395,6 +400,8 @@ module.exports = function(prefs) {
           __sbjs_medium = get_param.utm_medium;
         } else if (typeof get_param.gclid !== 'undefined') {
           __sbjs_medium = 'cpc';
+        } else if (typeof get_param.yclid !== 'undefined') {
+          __sbjs_medium = 'cpc';  
         } else {
           __sbjs_medium = terms.none;
         }
@@ -405,12 +412,28 @@ module.exports = function(prefs) {
           __sbjs_campaign = get_param[p.campaign_param];
         } else if (typeof get_param.gclid !== 'undefined') {
           __sbjs_campaign = 'google_cpc';
+        } else if (typeof get_param.yclid !== 'undefined') {
+          __sbjs_campaign = 'yandex_cpc';  
         } else {
           __sbjs_campaign = terms.none;
         }
 
-        __sbjs_content  = get_param.utm_content || terms.none;
-        __sbjs_term     = getUtmTerm()          || terms.none;
+        if (typeof get_param.utm_content !== 'undefined') {
+          __sbjs_content = get_param.utm_content;
+        } else if (typeof get_param[p.content_param] !== 'undefined') {
+          __sbjs_content = get_param[p.content_param];
+        } else {
+          __sbjs_content = terms.none;
+        }
+
+        if (typeof get_param.utm_term !== 'undefined') {
+          __sbjs_term = get_param.utm_term;
+        } else if (typeof get_param[p.term_param] !== 'undefined') {
+          __sbjs_term = get_param[p.term_param];
+        } else {
+          __sbjs_term = getUtmTerm() || terms.none;
+        }
+
         break;
 
       case terms.traffic.organic:
@@ -719,6 +742,10 @@ module.exports = {
 
     // Set `campaign param` for AdWords links
     params.campaign_param = user.campaign_param || false;
+
+    // Set `term param` and `content param` for AdWords links
+    params.term_param = user.term_param || false;
+    params.content_param = user.content_param || false;
 
     // Set `user ip`
     params.user_ip = user.user_ip || terms.none;
