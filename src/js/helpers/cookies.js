@@ -38,7 +38,12 @@ module.exports = {
       expires = '';
     }
     if (domain && !excl_subdomains) {
-      basehost = ';domain=.' + domain;
+      // if domain is IP address
+      if (/^(\d{1,3}\.){3}\d{1,3}$/.test(domain)){
+        basehost = ';domain=' + domain;
+      } else {
+        basehost = ';domain=.' + domain;
+      }
     } else {
       basehost = '';
     }
