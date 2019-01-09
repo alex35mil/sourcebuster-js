@@ -37,7 +37,7 @@ module.exports = {
     } else {
       expires = '';
     }
-    if (domain && !excl_subdomains) {
+    if (domain && !excl_subdomains && domain !== 'localhost') {
       basehost = ';domain=.' + domain;
     } else {
       basehost = '';
