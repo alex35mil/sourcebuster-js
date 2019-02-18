@@ -79,10 +79,10 @@ module.exports = {
     }
 
     for (var i1 = 0; i1 < cookies.length; i1++) {
-      var cookie_array;
       data[this.unsbjs(cookies[i1])] = {};
-      if (this.get(cookies[i1])) {
-        cookie_array = this.get(cookies[i1]).split(delimiter);
+      var cookie_array = this.get(cookies[i1]);
+      if (cookie_array) {
+        cookie_array = cookie_array.split(delimiter);
       } else {
         cookie_array = [];
       }
