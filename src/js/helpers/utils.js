@@ -7,11 +7,11 @@ module.exports = {
   },
 
   setDate: function(date, offset) {
-    var utc_offset    = date.getTimezoneOffset() / 60,
-        now_hours     = date.getHours(),
-        custom_offset = offset || offset === 0 ? offset : -utc_offset;
+    var utc_offset    = date.getTimezoneOffset(),
+        now_minutes     = date.getMinutes(),
+        custom_offset = offset || offset === 0 ? offset * 60  : -utc_offset;
 
-    date.setHours(now_hours + utc_offset + custom_offset);
+    date.setMinutes(now_minutes + utc_offset + custom_offset);
 
     var year    = date.getFullYear(),
         month   = this.setLeadingZeroToInt(date.getMonth() + 1,   2),
