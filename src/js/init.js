@@ -35,6 +35,7 @@ module.exports = function(prefs) {
         typeof get_param.utm_term          !== 'undefined' ||
         typeof get_param.gclid             !== 'undefined' ||
         typeof get_param.yclid             !== 'undefined' ||
+        typeof get_param.fbclid            !== 'undefined' ||
         typeof get_param[p.campaign_param] !== 'undefined' ||
         typeof get_param[p.term_param]     !== 'undefined' ||
         typeof get_param[p.content_param]  !== 'undefined'
@@ -79,6 +80,8 @@ module.exports = function(prefs) {
           __sbjs_medium = get_param.utm_medium;
         } else if (typeof get_param.gclid !== 'undefined') {
           __sbjs_medium = 'cpc';
+        } else if (typeof get_param.fbclid !== 'undefined') {
+          __sbjs_medium = 'cpc';
         } else if (typeof get_param.yclid !== 'undefined') {
           __sbjs_medium = 'cpc';  
         } else {
@@ -93,6 +96,8 @@ module.exports = function(prefs) {
           __sbjs_campaign = 'google_cpc';
         } else if (typeof get_param.yclid !== 'undefined') {
           __sbjs_campaign = 'yandex_cpc';  
+        } else if (typeof get_param.fbclid !== 'undefined' && typeof get_param.fb_campaign !== 'undefined') {
+          __sbjs_campaign = get_param.fb_campaign;
         } else {
           __sbjs_campaign = terms.none;
         }
