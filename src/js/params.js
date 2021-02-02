@@ -100,11 +100,11 @@ module.exports = {
   validate: {
 
     checkFloat: function(v) {
-      return v && this.isNumeric(parseFloat(v)) ? parseFloat(v) : false;
+      return (v || v === 0) && this.isNumeric(parseFloat(v)) ? parseFloat(v) : false;
     },
 
     checkInt: function(v) {
-      return v && this.isNumeric(parseInt(v)) ? parseInt(v) : false;
+      return (v || v === 0) && this.isNumeric(parseInt(v)) ? parseInt(v) : false;
     },
 
     isNumeric: function(v){
