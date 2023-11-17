@@ -1,20 +1,19 @@
 {
   "name": "sourcebuster",
-  "version": "1.1.0",
+  "version": "1.1.2",
   "description": "Get sources of your site's visitors (utm / organic / referral / typein).",
-  "homepage": "https://github.com/alexfedoseev/sourcebuster-js",
+  "homepage": "https://github.com/woocommerce/sourcebuster-js",
   "author": {
-    "name": "Alex Fedoseev",
-    "email": "alex.fedoseev@gmail.com",
-    "url": "http://www.alexfedoseev.com"
+    "name": "Woo",
+    "url": "https://woo.com"
   },
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/alexfedoseev/sourcebuster-js.git"
+    "url": "https://github.com/woocommerce/sourcebuster-js.git"
   },
   "bugs": {
-    "url": "https://github.com/alexfedoseev/sourcebuster-js/issues"
+    "url": "https://github.com/woocommerce/sourcebuster-js/issues"
   },
   "keywords": [
     "google",
