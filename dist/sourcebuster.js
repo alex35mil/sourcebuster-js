@@ -45,7 +45,8 @@ var data = {
       medium:         'mdm',
       campaign:       'cmp',
       content:        'cnt',
-      term:           'trm'
+      term:           'trm',
+      id:             'id'
     },
 
     extra: {
@@ -78,7 +79,8 @@ var data = {
         data.aliases.main.medium    + '=' + sbjs.medium   + data.delimiter +
         data.aliases.main.campaign  + '=' + sbjs.campaign + data.delimiter +
         data.aliases.main.content   + '=' + sbjs.content  + data.delimiter +
-        data.aliases.main.term      + '=' + sbjs.term
+        data.aliases.main.term      + '=' + sbjs.term     + data.delimiter +
+        data.aliases.main.id        + '=' + sbjs.id
       );
     },
 
@@ -115,6 +117,7 @@ var data = {
 };
 
 module.exports = data;
+
 },{"./helpers/utils":5,"./terms":9}],3:[function(_dereq_,module,exports){
 "use strict";
 
@@ -344,7 +347,8 @@ module.exports = function(prefs) {
       __sbjs_medium,
       __sbjs_campaign,
       __sbjs_content,
-      __sbjs_term;
+      __sbjs_term,
+      __sbjs_id;
 
   function mainData() {
     var sbjs_data;
@@ -354,6 +358,7 @@ module.exports = function(prefs) {
         typeof get_param.utm_campaign      !== 'undefined' ||
         typeof get_param.utm_content       !== 'undefined' ||
         typeof get_param.utm_term          !== 'undefined' ||
+        typeof get_param.utm_id            !== 'undefined' ||
         typeof get_param.gclid             !== 'undefined' ||
         typeof get_param.yclid             !== 'undefined' ||
         typeof get_param[p.campaign_param] !== 'undefined' ||
@@ -391,7 +396,7 @@ module.exports = function(prefs) {
         } else if (typeof get_param.gclid !== 'undefined') {
           __sbjs_source = 'google';
         } else if (typeof get_param.yclid !== 'undefined') {
-          __sbjs_source = 'yandex';  
+          __sbjs_source = 'yandex';
         } else {
           __sbjs_source = terms.none;
         }
@@ -401,7 +406,7 @@ module.exports = function(prefs) {
         } else if (typeof get_param.gclid !== 'undefined') {
           __sbjs_medium = 'cpc';
         } else if (typeof get_param.yclid !== 'undefined') {
-          __sbjs_medium = 'cpc';  
+          __sbjs_medium = 'cpc';
         } else {
           __sbjs_medium = terms.none;
         }
@@ -413,7 +418,7 @@ module.exports = function(prefs) {
         } else if (typeof get_param.gclid !== 'undefined') {
           __sbjs_campaign = 'google_cpc';
         } else if (typeof get_param.yclid !== 'undefined') {
-          __sbjs_campaign = 'yandex_cpc';  
+          __sbjs_campaign = 'yandex_cpc';
         } else {
           __sbjs_campaign = terms.none;
         }
@@ -425,6 +430,8 @@ module.exports = function(prefs) {
         } else {
           __sbjs_content = terms.none;
         }
+
+        __sbjs_id = get_param.utm_id || terms.none;
 
         if (typeof get_param.utm_term !== 'undefined') {
           __sbjs_term = get_param.utm_term;
@@ -443,6 +450,7 @@ module.exports = function(prefs) {
         __sbjs_campaign = terms.none;
         __sbjs_content  = terms.none;
         __sbjs_term     = terms.none;
+        __sbjs_id       = terms.none;
         break;
 
       case terms.traffic.referral:
@@ -452,6 +460,7 @@ module.exports = function(prefs) {
         __sbjs_campaign = terms.none;
         __sbjs_content  = uri.parse(document.referrer).path;
         __sbjs_term     = terms.none;
+        __sbjs_id       = terms.none;
         break;
 
       case terms.traffic.typein:
@@ -461,6 +470,7 @@ module.exports = function(prefs) {
         __sbjs_campaign = terms.none;
         __sbjs_content  = terms.none;
         __sbjs_term     = terms.none;
+        __sbjs_id       = terms.none;
         break;
 
       default:
@@ -470,6 +480,7 @@ module.exports = function(prefs) {
         __sbjs_campaign = terms.oops;
         __sbjs_content  = terms.oops;
         __sbjs_term     = terms.oops;
+        __sbjs_id       = terms.oops;
     }
     var sbjs_data = {
       type:             __sbjs_type,
@@ -477,7 +488,8 @@ module.exports = function(prefs) {
       medium:           __sbjs_medium,
       campaign:         __sbjs_campaign,
       content:          __sbjs_content,
-      term:             __sbjs_term
+      term:             __sbjs_term,
+      id:               __sbjs_id
     };
 
     return data.pack.main(sbjs_data);
@@ -628,6 +640,7 @@ module.exports = function(prefs) {
   return cookies.parse(data.containers);
 
 };
+
 },{"./data":2,"./helpers/cookies":3,"./helpers/uri":4,"./helpers/utils":5,"./migrations":7,"./params":8,"./terms":9}],7:[function(_dereq_,module,exports){
 "use strict";
 
