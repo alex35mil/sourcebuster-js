@@ -29,7 +29,8 @@ var data = {
       medium:         'mdm',
       campaign:       'cmp',
       content:        'cnt',
-      term:           'trm'
+      term:           'trm',
+      id:             'id'
     },
 
     extra: {
@@ -62,7 +63,8 @@ var data = {
         data.aliases.main.medium    + '=' + sbjs.medium   + data.delimiter +
         data.aliases.main.campaign  + '=' + sbjs.campaign + data.delimiter +
         data.aliases.main.content   + '=' + sbjs.content  + data.delimiter +
-        data.aliases.main.term      + '=' + sbjs.term
+        data.aliases.main.term      + '=' + sbjs.term     + data.delimiter +
+        data.aliases.main.id        + '=' + sbjs.id
       );
     },
 
